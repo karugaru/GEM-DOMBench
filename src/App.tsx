@@ -76,10 +76,15 @@ class Table extends React.Component<TableProps> {
   }
 }
 
-class App extends React.Component {
+
+interface AppProps {
+  name: string;
+}
+class App extends React.Component<AppProps> {
   public render(): React.ReactNode {
     return (
       <div className="test">
+        <h1>{this.props.name}</h1>
         <Table children={[7,6,5]} />
       </div>
     );
