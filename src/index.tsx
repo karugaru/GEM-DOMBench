@@ -58,7 +58,7 @@ function demo() {
   }).then(() => {
     return makePromise(() => { }, 0);
   }).then(() => {
-    return makeRenderPromise(<App page="0" />, 2000);
+    return makeRenderPromise(<App page="0" />, 3000);
   });
 
   promise = pushingButtonScene(promise, 1);
@@ -67,7 +67,7 @@ function demo() {
   }).then(() => {
     return makePromise(() => { }, 0);
   }).then(() => {
-    return makeRenderPromise(<App page="0" />, 2000);
+    return makeRenderPromise(<App page="0" />, 3000);
   });
 
   promise = pushingButtonScene(promise, 2);

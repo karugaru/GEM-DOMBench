@@ -101,6 +101,12 @@ class App extends React.Component<AppProps> {
 
         </div>
       );
+    } else if (this.props.page == "3") {
+      return <h1>demo page 3</h1>;
+    } else if (this.props.page == "4") {
+      return <h1>demo page 4</h1>;
+    } else if (this.props.page == "5") {
+      return <h1>demo page 5</h1>;
     } else {
       return <div className="none" />;
     }
