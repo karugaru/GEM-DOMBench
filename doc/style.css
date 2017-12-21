@@ -32,6 +32,13 @@ body {
     flex-direction: row;
     flex-wrap: wrap;
     align-content: space-around;
+    transition: all 500ms 0s ease;
+}
+
+.all-container-0-overray {
+    background-color: black;
+    opacity: 0.5;
+    z-index: 1;
 }
 
 .all-container-0 .button-box {
