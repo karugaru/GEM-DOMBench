@@ -10,107 +10,109 @@ import './App.css';
 }*/
 
 interface AppProps {
-  page: string;
+    page: string;
 }
 class App extends React.Component<AppProps> {
-  public clicked() {
-  }
-
-  public render(): React.ReactNode {
-    if (this.props.page == "0") {
-      const node: React.ReactNode[] = [];
-      for (var i: number = 0; i < 6; i++) {
-        node.push(
-          <div className="button-box">
-            <input type="image" className="box" value={"box" + i} src={"sample" + i + ".png"} alt={"box" + i} onClick={this.clicked.bind(this)} />
-          </div>);
-      }
-      return (
-        <div className="all-container-0">{node}</div>
-      );
-    } else if (this.props.page == "1") {
-      const elemNum: number = 1000;
-      var sampleElem1: React.ReactNode[] = [];
-      for (var i: number = 0; i < elemNum; i++) {
-        sampleElem1.push(<li>{"sample channel" + i}</li>);
-      }
-      var sampleElem2: React.ReactNode[] = [];
-      for (var i: number = 0; i < elemNum; i++) {
-        sampleElem2.push(
-          <div className="balloon balloon-left">
-            <p>{"sample text." + (i * 2)}</p>
-          </div>
-        );
-        sampleElem2.push(
-          <div className="balloon balloon-right">
-            <p>{"sample text." + (i * 2 + 1)}</p>
-          </div>
-        );
-      }
-      var sampleElem3: React.ReactNode[] = [];
-      for (var i: number = 0; i < elemNum; i++) {
-        sampleElem3.push(<li>{"MemoMemoMemoMemoMemoMemoMemoMemoMemoMemo" + i}</li>);
-      }
-
-      return (
-        <div className="all-container-1">
-          <div className="left-container">
-            <div className="info-container">
-              <div className="face-image">
-                <a>image</a>
-              </div>
-            </div>
-            <div className="channel-container">
-              {sampleElem1}
-            </div>
-          </div>
-          <div className="center-container">
-            {sampleElem2}
-          </div>
-          <div className="right-container">
-            {sampleElem3}
-          </div>
-
-        </div>
-      );
-    } else if (this.props.page == "2") {
-      const elemNum: number = 1000;
-
-      var sampleElem: React.ReactNode[] = [];
-      for (var i: number = 0; i < elemNum; i++) {
-        sampleElem.push(
-          <div className="image-container">
-            <img src="sample.jpg" />
-          </div>
-        );
-      }
-
-      return (
-        <div className="all-container-2">
-          <div className="top-container">
-
-            <input type="button" value="open" />
-            <input type="button" value="rotate" />
-            <input type="button" value="flip" />
-            <input type="button" value="scale" />
-            <input type="button" value="exit" />
-          </div>
-          <div className="main-container">
-            {sampleElem}
-          </div>
-
-        </div>
-      );
-    } else if (this.props.page == "3") {
-      return <h1>demo page 3</h1>;
-    } else if (this.props.page == "4") {
-      return <h1>demo page 4</h1>;
-    } else if (this.props.page == "5") {
-      return <h1>demo page 5</h1>;
-    } else {
-      return <div className="none" />;
+    public clicked() {
     }
-  }
+
+    public render(): React.ReactNode {
+        if (this.props.page == "0") {
+            const node: React.ReactNode[] = [];
+            for (var i: number = 0; i < 6; i++) {
+                node.push(
+                    <div className="button-box">
+                        <input type="image" className="box" value={"box" + i}
+                            src={"sample" + i + ".png"} alt={"box" + i}
+                            onClick={this.clicked.bind(this)} />
+                    </div>);
+            }
+            return (
+                <div className="all-container-0">{node}</div>
+            );
+        } else if (this.props.page == "1") {
+            const elemNum: number = 1000;
+            var sampleElem1: React.ReactNode[] = [];
+            for (var i: number = 0; i < elemNum; i++) {
+                sampleElem1.push(<li>{"sample channel" + i}</li>);
+            }
+            var sampleElem2: React.ReactNode[] = [];
+            for (var i: number = 0; i < elemNum; i++) {
+                sampleElem2.push(
+                    <div className="balloon balloon-left">
+                        <p>{"sample text." + (i * 2)}</p>
+                    </div>
+                );
+                sampleElem2.push(
+                    <div className="balloon balloon-right">
+                        <p>{"sample text." + (i * 2 + 1)}</p>
+                    </div>
+                );
+            }
+            var sampleElem3: React.ReactNode[] = [];
+            for (var i: number = 0; i < elemNum; i++) {
+                sampleElem3.push(<li>{"MemoMemoMemoMemoMemoMemoMemoMemoMemoMemo" + i}</li>);
+            }
+
+            return (
+                <div className="all-container-1">
+                    <div className="left-container">
+                        <div className="info-container">
+                            <div className="face-image">
+                                <a>image</a>
+                            </div>
+                        </div>
+                        <div className="channel-container">
+                            {sampleElem1}
+                        </div>
+                    </div>
+                    <div className="center-container">
+                        {sampleElem2}
+                    </div>
+                    <div className="right-container">
+                        {sampleElem3}
+                    </div>
+
+                </div>
+            );
+        } else if (this.props.page == "2") {
+            const elemNum: number = 1000;
+
+            var sampleElem: React.ReactNode[] = [];
+            for (var i: number = 0; i < elemNum; i++) {
+                sampleElem.push(
+                    <div className="image-container">
+                        <img src="sample.jpg" />
+                    </div>
+                );
+            }
+
+            return (
+                <div className="all-container-2">
+                    <div className="top-container">
+
+                        <input type="button" value="open" />
+                        <input type="button" value="rotate" />
+                        <input type="button" value="flip" />
+                        <input type="button" value="scale" />
+                        <input type="button" value="exit" />
+                    </div>
+                    <div className="main-container">
+                        {sampleElem}
+                    </div>
+
+                </div>
+            );
+        } else if (this.props.page == "3") {
+            return <h1>demo page 3</h1>;
+        } else if (this.props.page == "4") {
+            return <h1>demo page 4</h1>;
+        } else if (this.props.page == "5") {
+            return <h1>demo page 5</h1>;
+        } else {
+            return <div className="none" />;
+        }
+    }
 }
 
 export default App;
