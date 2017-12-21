@@ -9,95 +9,11 @@
     <script type="text/javascript" language="javascript">
         window.resizeTo(800, 480);
     </script>
-
-    <style type="text/css">
-        * {
-            box-sizing: border-box;
-        }
-
-        html,
-        body {
-            margin: 0px;
-            padding: 0px;
-            width: 100vw;
-            height: 100vh;
-        }
-
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-
-
-        ::-webkit-scrollbar-track {
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background-color: rgba(50, 50, 50, .5);
-            border-radius: 10px;
-        }
-
-        .all-container {
-            width: 100%;
-            height: 100%;
-            padding: 0px;
-            margin: 0px;
-            display: flex;
-            flex-flow: column;
-        }
-
-        .top-container {
-            width: 100%;
-            height: 20%;
-            background-color: red;
-            display: flex;
-            flex-flow: row;
-            align-items: center;
-            justify-content: space-around;
-        }
-
-        .top-container input {
-            width: 15vmin;
-            height: 15vmin;
-            margin: 1vmin;
-        }
-
-        input[value="exit"] {
-            margin-left: auto;
-        }
-
-        .main-container {
-            width: 100%;
-            height: 80%;
-            background-color: blue;
-            display: flex;
-            flex-flow: row;
-            flex-wrap: wrap;
-            align-content: flex-start;
-            overflow: auto;
-        }
-
-        .image-container {
-            background-color: green;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 1vmin;
-            width: 18vmax;
-            height: 18vmax;
-            min-width: 100px;
-            min-height: 100px;
-        }
-
-        .image-container img {
-            width: 90%;
-            height: 90%;
-        }
-    </style>
+    <link href="style.css" rel="stylesheet">
 </head>
 
 <body>
-    <div class="all-container">
+    <div class="all-container-2">
         <div class="top-container">
 
             <input type="button" value="open" />

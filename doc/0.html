@@ -9,74 +9,11 @@
     <script type="text/javascript" language="javascript">
         window.resizeTo(800, 480);
     </script>
-
-    <style type="text/css">
-        html,
-        body {
-            box-sizing: border-box;
-            margin: 0px;
-            padding: 0px;
-            width: 100vw;
-            height: 100vh;
-        }
-
-        .boxbox {
-            padding: 0px;
-            border: solid 0px red;
-            box-sizing: border-box;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            align-content: space-around;
-        }
-
-        .button-box {
-            border: solid 0px blue;
-            box-sizing: border-box;
-            width: 33.3333%;
-            height: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .box {
-            border: solid 0px green;
-            box-sizing: border-box;
-            width: 80%;
-            margin: 0%;
-            height: 80%;
-            background-color: lightgreen;
-            animation: fadeIn 1s ease;
-            transition: all 100ms 0s ease;
-        }
-
-        .box:hover {
-            transform: scale(1.1, 1.1);
-            letter-spacing: 5px;
-        }
-
-        .box:active{
-            transform: scale(0.8, 0.8);
-        }
-
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-                transform: scale(0, 0) rotate(90deg);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1, 1) rotate(0deg);
-            }
-        }
-    </style>
+    <link href="style.css" rel="stylesheet">
 </head>
 
 <body>
-    <div class="boxbox">
+    <div class="all-container-0">
         <div class="button-box">
             <input type="button" class="box" value="box1" />
         </div>
