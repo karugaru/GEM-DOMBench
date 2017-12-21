@@ -1,6 +1,8 @@
 import * as React from 'react';
 // import * as ReactDOM from 'react-dom';
 import './App.css';
+import { setNowPage } from './index';
+
 /*function makeArray(start: number, stop: number, stride: number): number[] {
   const ary: number[] = [];
   for (let i = start; i <= stop; i += stride) {
@@ -9,49 +11,64 @@ import './App.css';
   return ary;
 }*/
 
-interface AppProps {
-    page: string;
+
+interface MainButtonProps {
+    page: number;
 }
-class App extends React.Component<AppProps> {
+
+class MainButton extends React.Component<MainButtonProps>
+{
     public clicked() {
+        /// <reference path='index.tsx'>
+        setNowPage(this.props.page);
     }
 
     public render(): React.ReactNode {
-        if (this.props.page == "0") {
+        return <div className="button-box">
+            <input type="image" className="box" value={'box' + this.props.page}
+                src={'sample' + this.props.page + '.png'} alt={'box' + this.props.page}
+                onClick={this.clicked.bind(this)} />
+        </div>;
+    }
+}
+
+interface AppProps {
+    page: string;
+}
+
+class App extends React.Component<AppProps> {
+
+    public render(): React.ReactNode {
+        if (this.props.page === '0') {
             const node: React.ReactNode[] = [];
-            for (var i: number = 0; i < 6; i++) {
-                node.push(
-                    <div className="button-box">
-                        <input type="image" className="box" value={"box" + i}
-                            src={"sample" + i + ".png"} alt={"box" + i}
-                            onClick={this.clicked.bind(this)} />
-                    </div>);
+            for (let i: number = 0; i < 6; i++) {
+                node.push(<MainButton page={i} />);
             }
             return (
                 <div className="all-container-0">{node}</div>
             );
-        } else if (this.props.page == "1") {
+        } else if (this.props.page === '1') {
             const elemNum: number = 1000;
-            var sampleElem1: React.ReactNode[] = [];
-            for (var i: number = 0; i < elemNum; i++) {
-                sampleElem1.push(<li>{"sample channel" + i}</li>);
+            let sampleElem1: React.ReactNode[] = [];
+            for (let i: number = 0; i < elemNum; i++) {
+                sampleElem1.push(<li>{'sample channel' + i}</li>);
             }
-            var sampleElem2: React.ReactNode[] = [];
-            for (var i: number = 0; i < elemNum; i++) {
+            let sampleElem2: React.ReactNode[] = [];
+            for (let i: number = 0; i < elemNum; i++) {
                 sampleElem2.push(
                     <div className="balloon balloon-left">
-                        <p>{"sample text." + (i * 2)}</p>
+                        <p>{'sample text.' + (i * 2)}</p>
                     </div>
                 );
                 sampleElem2.push(
                     <div className="balloon balloon-right">
-                        <p>{"sample text." + (i * 2 + 1)}</p>
+                        <p>{'sample text.' + (i * 2 + 1)}</p>
                     </div>
                 );
             }
-            var sampleElem3: React.ReactNode[] = [];
-            for (var i: number = 0; i < elemNum; i++) {
-                sampleElem3.push(<li>{"MemoMemoMemoMemoMemoMemoMemoMemoMemoMemo" + i}</li>);
+            let sampleElem3: React.ReactNode[] = [];
+            for (let i: number = 0; i < elemNum; i++) {
+                sampleElem3.push(<li>{'MemoMemoMemoMemoMemoMemoMemoMemoMemoMemo' + i}</li>);
             }
 
             return (
@@ -75,11 +92,11 @@ class App extends React.Component<AppProps> {
 
                 </div>
             );
-        } else if (this.props.page == "2") {
+        } else if (this.props.page === '2') {
             const elemNum: number = 1000;
 
-            var sampleElem: React.ReactNode[] = [];
-            for (var i: number = 0; i < elemNum; i++) {
+            let sampleElem: React.ReactNode[] = [];
+            for (let i: number = 0; i < elemNum; i++) {
                 sampleElem.push(
                     <div className="image-container">
                         <img src="sample.jpg" />
@@ -103,11 +120,11 @@ class App extends React.Component<AppProps> {
 
                 </div>
             );
-        } else if (this.props.page == "3") {
+        } else if (this.props.page === '3') {
             return <h1>demo page 3</h1>;
-        } else if (this.props.page == "4") {
+        } else if (this.props.page === '4') {
             return <h1>demo page 4</h1>;
-        } else if (this.props.page == "5") {
+        } else if (this.props.page === '5') {
             return <h1>demo page 5</h1>;
         } else {
             return <div className="none" />;

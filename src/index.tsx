@@ -4,14 +4,21 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
 
+var interrupted: boolean = false;
+var nowPage: number = -1;
+
 registerServiceWorker();
 
 function makePromise(func: Function, ms: number): Promise<any> {
     return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            func();
-            resolve();
-        }, ms);
+        if (interrupted) {
+            reject();
+        } else {
+            setTimeout(() => {
+                func();
+                resolve();
+            }, ms);
+        }
     });
 }
 
@@ -25,29 +32,50 @@ function makeRenderPromise(reactElement: React.ReactElement<any>, ms: number): P
 }
 
 function pushingButtonScene(promise: Promise<any>, buttonNo: number): Promise<any> {
-    var selecterStr: string = ".all-container-0 .box[value=\"box" + buttonNo + "\"]";
+    let selecterStr: string = '.all-container-0 .box[value="box' + buttonNo + '"]';
     return promise.then(() => {
         return makePromise(() => {
-            var elem: Element = document.querySelector(selecterStr)!;
-            elem.className += " boxhover";
+            let elem: Element | null = document.querySelector(selecterStr);
+            if (elem !== null) {
+                elem.className += ' boxhover';
+            }
         }, 2000);
-    })
-        .then(() => {
-            return makePromise(() => {
-                var elem: Element = document.querySelector(selecterStr)!;
-                elem.className += " boxactive";
-            }, 500);
-        })
-        .then(() => {
-            return makePromise(() => {
-                var elem: Element = document.querySelector(selecterStr)!;
-                elem.className = elem.className.split(" ")[0];
-            }, 500);
-        });
+    }).then(() => {
+        return makePromise(() => {
+            let elem: Element | null = document.querySelector(selecterStr);
+            if (elem !== null) {
+                elem.className += ' boxactive';
+            }
+        }, 500);
+    }).then(() => {
+        return makePromise(() => {
+            let elem: Element | null = document.querySelector(selecterStr);
+            if (elem !== null) {
+                elem.className = elem.className.split(' ')[0];
+            }
+
+        }, 500);
+    });
+}
+
+export function setNowPage(pageNo: number) {
+    interrupted = true;
+
+    nowPage = pageNo;
+    if (nowPage !== 5) {
+        ReactDOM.render(<App page={(nowPage + 1).toString()} />, document.getElementById('root') as HTMLElement);
+    } else {
+        setTimeout(() => {
+            demo();
+        }, 0);
+
+    }
 }
 
 function demo() {
-    var promise: Promise<any> = Promise.resolve();
+    interrupted = false;
+
+    let promise: Promise<any> = Promise.resolve();
     promise = promise.then(() => {
         return makeRenderPromise(<App page="0" />, 0);
     });
@@ -120,7 +148,7 @@ function demo() {
           return makeRenderPromise(<App page="B" />, 1000);
         })
         .then(() => {
-          return makeRenderPromise(<App page="C" />, 1000);
+          return makeRenderPromise(<App page='C' />, 1000);
         })*/
         .catch(() => { });
 
