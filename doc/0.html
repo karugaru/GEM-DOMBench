@@ -13,46 +13,55 @@
     <style type="text/css">
         html,
         body {
-            width: 98%;
-            height: 98%;
+            box-sizing: border-box;
+            margin: 0px;
+            padding: 0px;
+            width: 100vw;
+            height: 100vh;
         }
-        
-        .flex_cont {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            height: 100%;
-        }
-        
+
         .boxbox {
             padding: 0px;
             border: solid 0px red;
             box-sizing: border-box;
-            margin: 1%;
             width: 100%;
-            height: 50%;
+            height: 100%;
             display: flex;
             flex-direction: row;
+            flex-wrap: wrap;
+            align-content: space-around;
         }
-        
-        .box {
+
+        .button-box {
             border: solid 0px blue;
             box-sizing: border-box;
             width: 33.3333%;
-            height: 100%;
-            text-align: center;
-            vertical-align: middle;
+            height: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .box {
+            border: solid 0px green;
+            box-sizing: border-box;
+            width: 80%;
+            margin: 0%;
+            height: 80%;
             background-color: lightgreen;
-            margin: 1%;
             animation: fadeIn 1s ease;
             transition: all 100ms 0s ease;
         }
-        
+
         .box:hover {
-            width: 36.6666%;
-            height: 110%;
+            transform: scale(1.1, 1.1);
+            letter-spacing: 5px;
         }
-        
+
+        .box:active{
+            transform: scale(0.8, 0.8);
+        }
+
         @keyframes fadeIn {
             0% {
                 opacity: 0;
@@ -67,17 +76,26 @@
 </head>
 
 <body>
-    <div class="flex_cont">
-        <div class="boxbox">
-            <div class="box"><span>box1</span></div>
-            <div class="box">box2</div>
-            <div class="box">box3</div>
+    <div class="boxbox">
+        <div class="button-box">
+            <input type="button" class="box" value="box1" />
         </div>
-        <div class="boxbox">
-            <div class="box">box4</div>
-            <div class="box">box5</div>
-            <div class="box">box6</div>
+        <div class="button-box">
+            <input type="button" class="box" value="box2" />
         </div>
+        <div class="button-box">
+            <input type="button" class="box" value="box3" />
+        </div>
+        <div class="button-box">
+            <input type="button" class="box" value="box4" />
+        </div>
+        <div class="button-box">
+            <input type="button" class="box" value="box5" />
+        </div>
+        <div class="button-box">
+            <input type="button" class="box" value="box6" />
+        </div>
+
     </div>
 </body>
 

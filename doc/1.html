@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>1</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=800, height=480, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href=""> -->
+    <script type="text/javascript" language="javascript">
+        window.resizeTo(800, 480);
+    </script>
+
+    <style type="text/css">
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0px;
+            padding: 0px;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+
+        ::-webkit-scrollbar-track {
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: rgba(50, 50, 50, .5);
+            border-radius: 10px;
+        }
+
+        .all-container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            padding: 0px;
+            margin: 0px;
+        }
+
+        .left-container {
+            background-color: red;
+            width: 20%;
+            height: 100%;
+            margin: 0px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-container {
+            background-color: rgb(255, 65, 65);
+            width: 100%;
+            height: 30%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .face-image {
+            background-color: rgb(255, 0, 0);
+            width: 20vmin;
+            height: 20vmin;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .channel-container {
+            background-color: rgb(255, 154, 154);
+            width: 100%;
+            height: 70%;
+            display: flex;
+            flex-direction: column;
+            overflow: auto;
+        }
+
+        .channel-container li {
+            color: black;
+            border-left: solid 8px orange;
+            background-color: whitesmoke;
+
+            line-height: 1.5;
+            padding: 3%;
+            list-style-type: none;
+            margin: 3%;
+        }
+
+        .center-container {
+            background-color: blue;
+            width: 60%;
+            height: 100%;
+            margin: 0px;
+            display: flex;
+            flex-direction: column;
+            overflow: auto;
+        }
+
+        .balloon {
+            position: relative;
+            display: inline-block;
+            margin: 1% 6% 1% 6%;
+            padding: 7px 10px;
+            min-width: 120px;
+            max-width: 100%;
+            color: #555;
+            font-size: 16px;
+            background: #e0edff;
+            border-radius: 8px;
+        }
+
+
+        .balloon:before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            margin-top: -10px;
+            border: 10px solid transparent;
+        }
+
+        .balloon-left:before {
+            left: -20px;
+            border-right: 10px solid #e0edff;
+        }
+
+
+        .balloon-right:before {
+
+            left: 100%;
+            border-left: 10px solid #e0edff;
+        }
+
+        .balloon p {
+            margin: 0;
+            padding: 0;
+        }
+
+        .right-container {
+            background-color: green;
+            width: 20%;
+            height: 100%;
+            margin: 0px;
+            display: flex;
+            flex-direction: column;
+            overflow: auto;
+        }
+
+        .right-container li {
+            color: black;
+            border-top: solid 8px rgb(185, 165, 87);
+            background-color: rgb(255, 230, 119);
+
+            padding: 3%;
+            list-style-type: none;
+            margin: 3%;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="all-container">
+        <div class="left-container">
+            <div class="info-container">
+                <div class="face-image">
+                    <a>image</a>
+                </div>
+            </div>
+            <div class="channel-container">
+                <li>sample channel1</li>
+                <li>sample channel2</li>
+                <li>sample channel3</li>
+                <li>sample channel4</li>
+                <li>sample channel5</li>
+                <li>sample channel6</li>
+                <li>sample channel7</li>
+                <li>sample channel8</li>
+                <li>sample channel9</li>
+            </div>
+        </div>
+        <div class="center-container">
+
+            <div class="balloon balloon-left">
+                <p> sample text. </p>
+            </div>
+            <div class="balloon balloon-right">
+                <p> sample text. </p>
+            </div>
+            <div class="balloon balloon-left">
+                <p>sample text. sample text. sample text. sample text. sample text. sample text. sample text. sample text. </p>
+            </div>
+            <div class="balloon balloon-right">
+                <p>sample text. sample text. sample text. sample text. sample text. sample text. sample text. sample text. </p>
+            </div>
+            <div class="balloon balloon-left">
+                <p>sample text.
+                    <br>sample text.
+                    <br>sample text.
+                    <br>sample text.
+                    <br>sample text.
+                    <br>sample text.
+                    <br>sample text.
+                    <br>sample text. </p>
+            </div>
+            <div class="balloon balloon-right">
+                <p>sample text.
+                    <br>sample text.
+                    <br>sample text.
+                    <br>sample text.
+                    <br>sample text.
+                    <br>sample text.
+                    <br>sample text.
+                    <br>sample text. </p>
+            </div>
+        </div>
+        <div class="right-container">
+            <li>memo1</li>
+            <li>memo2memo2</li>
+            <li>memo3memo3memo3</li>
+            <li>memo4memo4memo4memo4</li>
+            <li>memo5memo5memo5memo5memo5</li>
+            <li>memo6memo6memo6memo6memo6memo6</li>
+            <li>memo7memo7memo7memo7memo7memo7memo7</li>
+            <li>memo8memo8memo8memo8memo8memo8memo8memo8</li>
+            <li>memo9memo9memo9memo9memo9memo9memo9memo9memo9</li>
+        </div>
+
+    </div>
+</body>
+
+</html>
