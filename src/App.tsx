@@ -2,7 +2,7 @@ import * as React from 'react';
 // import * as ReactDOM from 'react-dom';
 import './App.css';
 import { setNowPage } from './index';
-
+//600
 /*function makeArray(start: number, stop: number, stride: number): number[] {
   const ary: number[] = [];
   for (let i = start; i <= stop; i += stride) {
@@ -132,6 +132,30 @@ class App extends React.Component<AppProps> {
             for (let i: number = 1; i <= floorNum; i++) {
                 let roomElem: React.ReactNode[] = [];
                 for (let j: number = 0; j < roomNum; j++) {
+
+                    let addtionalColumn: React.ReactNode[] = [];
+                    if (window.innerWidth >= 600) {
+                        addtionalColumn.push(
+                            <td className="switch">
+                                <input id={"switch" + uid} defaultChecked={randInt(0, 1) == 0} type="checkbox" />
+                                <label htmlFor={"switch" + (uid++)}></label>
+
+                            </td>);
+                        addtionalColumn.push(
+                            <td className="switch">
+
+                                <input id={"switch" + uid} defaultChecked={randInt(0, 1) == 0} type="checkbox" />
+                                <label htmlFor={"switch" + (uid++)}></label>
+
+                            </td>);
+                        addtionalColumn.push(
+                            <td className="switch">
+                                <input id={"switch" + uid} defaultChecked={randInt(0, 1) == 0} type="checkbox" />
+                                <label htmlFor={"switch" + (uid++)}></label>
+
+                            </td>);
+                    }
+
                     roomElem.push(
                         <tr>
                             <th>{"部屋" + j}</th>
@@ -144,25 +168,17 @@ class App extends React.Component<AppProps> {
                             <td>{randInt(20, 30)}℃<input type="button" value="▲" /><input type="button" value="▼" /></td>
                             <td className="nar">{randInt(20, 80)}%</td>
                             <td>{randInt(40, 60)}%<input type="button" value="▲" /><input type="button" value="▼" /></td>
-                            <td className="switch">
-                                <input id={"switch" + uid} defaultChecked={randInt(0, 1) == 0} type="checkbox" />
-                                <label htmlFor={"switch" + (uid++)}></label>
-
-                            </td>
-                            <td className="switch">
-
-                                <input id={"switch" + uid} defaultChecked={randInt(0, 1) == 0} type="checkbox" />
-                                <label htmlFor={"switch" + (uid++)}></label>
-
-                            </td>
-                            <td className="switch">
-                                <input id={"switch" + uid} defaultChecked={randInt(0, 1) == 0} type="checkbox" />
-                                <label htmlFor={"switch" + (uid++)}></label>
-
-                            </td>
+                            {addtionalColumn}
                         </tr>);
                 }
-                roomAnchor.push(<a href={"#floor" + i}>{i + "階"}</a>);
+
+                let addtionalColumn: React.ReactNode[] = [];
+                if (window.innerWidth >= 600) {
+                    addtionalColumn.push(<th>換気</th>);
+                    addtionalColumn.push(<th>施錠</th>);
+                    addtionalColumn.push(<th>警報装置</th>);
+                }
+                roomAnchor.push(<li className="item"><a href={"#floor" + i}>{i + "階"}</a></li>);
                 floorElem.push(
                     <fieldset>
                         <legend id={"floor" + i}>{i + "階"}</legend>
@@ -175,9 +191,7 @@ class App extends React.Component<AppProps> {
                                     <th>気温設定</th>
                                     <th className="nar">湿度</th>
                                     <th>湿度設定</th>
-                                    <th>換気</th>
-                                    <th>施錠</th>
-                                    <th>電源/ブレーカー</th>
+                                    {addtionalColumn}
                                 </tr>
                                 {roomElem}
                             </tbody>
@@ -188,8 +202,9 @@ class App extends React.Component<AppProps> {
             return (
                 <div className="all-container-3">
                     <div className="top-container">
-                        {roomAnchor}
-
+                        <div className="scroll-container">
+                            {roomAnchor}
+                        </div>
                     </div>
                     <div className="main-container">
                         {floorElem}

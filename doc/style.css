@@ -12,6 +12,7 @@ body {
 
 ::-webkit-scrollbar {
   width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
@@ -259,36 +260,44 @@ body {
 
 .all-container-3 {
   width: 100%;
-  height: 100%;
-  padding: 10px;
   margin: 0px;
-  display: flex;
-  flex-flow: column;
 }
 
 .all-container-3 .top-container {
   width: 100%;
-  height: 5%;
-  display: flex;
-  flex-flow: row;
-  align-items: center;
+  height: 8%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
 }
 
-.all-container-3 .top-container a {
-  margin: 1%;
+.all-container-3 .top-container .scroll-container {
+  overflow-x: auto;
+}
+
+.all-container-3 .top-container .scroll-container .item {
+  background: #f6f6f6;
+  display: table-cell;
+}
+
+.all-container-3 .top-container .scroll-container .item a {
+  display: block;
+  padding: 10px 20px;
+  text-decoration: none;
+  color: #040404;
 }
 
 .all-container-3 .main-container {
   width: 100%;
-  height: 100%;
-  margin: 0px;
   display: flex;
   flex-direction: column;
-  overflow: auto;
+  overflow-y: auto;
+  margin-top: 12%;
 }
 
 .all-container-3 .main-container fieldset {
-  width: 98%;
+  width: 100%;
   background-color: whitesmoke;
 }
 
@@ -346,6 +355,7 @@ body {
 }
 
 .all-container-3 .main-container .switch label {
+  white-space: nowrap;
   cursor: pointer;
   font-size: 1vw;
 }
