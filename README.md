@@ -2,13 +2,13 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ---
 
-アイコン素材サイト:  
+## アイコン素材サイト:  
     http://flat-icon-design.com/  
     https://www.iconsdb.com/  
 
 ---
 
-説明：  
+## 説明：  
 このアプリはDOM操作がG1M(など)の上できちんと高速に動作することを  
 検証し、デモとして閲覧することを目的に作られたアプリです。 
 
@@ -36,10 +36,10 @@ CSSアニメーションはメインページにしか使用していません�
 
 ---
 
-コーディング・ビルド手順  
-必要条件：  
+## コーディング・ビルド手順  
+### 必要条件：  
 Node >= 6   
-手順：  
+### 手順：  
 ・このプロジェクトをクローンする  
 ・npm install create-react-app か npm install -g create-react-app を実行する  
 ・npm install を実行する  
@@ -47,8 +47,3 @@ Node >= 6
   この状態ではソースコードを更新すると即座に画面に反映されるので作業中は便利  
 ・npm run build でビルドする  
   これでビルドできる。  
-  buildディレクトリ以下のファイルをそのままコピーするとindex.htmlのファイル参照が  
-  絶対パスになっていてローカルで閲覧できないので、index.html内の各参照パスの  
-  先頭の「/」を取り除くこと。  
-  buildディレクトリをルートディレクトリにしてwebサービスを構築するのであればそのままで良いはず。  
-
