@@ -209,7 +209,6 @@ class App extends React.Component<AppProps> {
                     <div className="main-container">
                         {floorElem}
                     </div>
-
                 </div>
             );
         } else if (this.props.page === '4') {

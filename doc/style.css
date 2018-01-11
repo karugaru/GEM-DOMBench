@@ -388,4 +388,51 @@ body {
   background: linear-gradient(to bottom, #F0F0F0 0%, #DDD 100%);
   color: #333;
 }
+
+.all-container-4 {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  padding: 0px;
+  margin: 0px;
+}
+
+.all-container-4 .left-container {
+  background-color: red;
+  width: 40%;
+  height: 100%;
+  margin: 0px;
+}
+
+.all-container-4 .left-container table,
+.all-container-4 .left-container td,
+.all-container-4 .left-container th {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+.all-container-4 .left-container td,
+.all-container-4 .left-container th {
+  width: 9%;
+  padding: 3px;
+  font-size: 2vw;
+}
+
+.all-container-4 .left-container th {
+  background-color: cornflowerblue;
+}
+
+.all-container-4 .left-container td {
+  background: whitesmoke;
+}
+
+.all-container-4 .right-container {
+  background-color: green;
+  width: 60%;
+  height: 100%;
+  margin: 0px;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
 /*# sourceMappingURL=style.css.map */
