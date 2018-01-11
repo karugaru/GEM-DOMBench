@@ -1,12 +1,9 @@
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).  
 
----
 
 ## アイコン素材サイト:  
     http://flat-icon-design.com/  
     https://www.iconsdb.com/  
-
----
 
 ## 説明：  
 このアプリはDOM操作がG1M(など)の上できちんと高速に動作することを  
@@ -34,8 +31,6 @@ CSSアニメーションはメインページにしか使用していません�
 1種類のサンプル画像が1000件配置されます。  
 これらはdiv、img要素などで構成されています。  
 
----
-
 ## コーディング・ビルド手順  
 ### 必要条件：  
 Node >= 6   
@@ -47,3 +42,4 @@ Node >= 6
   この状態ではソースコードを更新すると即座に画面に反映されるので作業中は便利  
 ・npm run build でビルドする  
   これでビルドできる。  
+・npm run deploy でGitHub Pagesにデプロイする。
