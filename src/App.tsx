@@ -11,6 +11,9 @@ import { setNowPage } from './index';
   return ary;
 }*/
 
+function randInt(min: number, max: number): number {
+    return Math.floor(Math.random() * (max + 1 - min)) + min;
+}
 
 interface MainButtonProps {
     page: number;
@@ -121,7 +124,79 @@ class App extends React.Component<AppProps> {
                 </div>
             );
         } else if (this.props.page === '3') {
-            return <h1>demo page 3</h1>;
+            const floorNum: number = 20;
+            const roomNum: number = 20;
+            let uid: number = 0;
+            let roomAnchor: React.ReactNode[] = [];
+            let floorElem: React.ReactNode[] = [];
+            for (let i: number = 1; i <= floorNum; i++) {
+                let roomElem: React.ReactNode[] = [];
+                for (let j: number = 0; j < roomNum; j++) {
+                    roomElem.push(
+                        <tr>
+                            <th>{"部屋" + j}</th>
+                            <td className="switch">
+                                <input id={"switch" + uid} defaultChecked={randInt(0, 1) == 0} type="checkbox" />
+                                <label htmlFor={"switch" + (uid++)}></label>
+
+                            </td>
+                            <td className="nar">{randInt(18, 40)}℃</td>
+                            <td>{randInt(20, 30)}℃<input type="button" value="▲" /><input type="button" value="▼" /></td>
+                            <td className="nar">{randInt(20, 80)}%</td>
+                            <td>{randInt(40, 60)}%<input type="button" value="▲" /><input type="button" value="▼" /></td>
+                            <td className="switch">
+                                <input id={"switch" + uid} defaultChecked={randInt(0, 1) == 0} type="checkbox" />
+                                <label htmlFor={"switch" + (uid++)}></label>
+
+                            </td>
+                            <td className="switch">
+
+                                <input id={"switch" + uid} defaultChecked={randInt(0, 1) == 0} type="checkbox" />
+                                <label htmlFor={"switch" + (uid++)}></label>
+
+                            </td>
+                            <td className="switch">
+                                <input id={"switch" + uid} defaultChecked={randInt(0, 1) == 0} type="checkbox" />
+                                <label htmlFor={"switch" + (uid++)}></label>
+
+                            </td>
+                        </tr>);
+                }
+                roomAnchor.push(<a href={"#floor" + i}>{i + "階"}</a>);
+                floorElem.push(
+                    <fieldset>
+                        <legend id={"floor" + i}>{i + "階"}</legend>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td></td>
+                                    <th>照明</th>
+                                    <th className="nar">気温</th>
+                                    <th>気温設定</th>
+                                    <th className="nar">湿度</th>
+                                    <th>湿度設定</th>
+                                    <th>換気</th>
+                                    <th>施錠</th>
+                                    <th>電源/ブレーカー</th>
+                                </tr>
+                                {roomElem}
+                            </tbody>
+                        </table>
+                    </fieldset>
+                );
+            }
+            return (
+                <div className="all-container-3">
+                    <div className="top-container">
+                        {roomAnchor}
+
+                    </div>
+                    <div className="main-container">
+                        {floorElem}
+                    </div>
+
+                </div>
+            );
         } else if (this.props.page === '4') {
             return <h1>demo page 4</h1>;
         } else if (this.props.page === '5') {
