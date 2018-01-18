@@ -1,17 +1,16 @@
 import * as React from 'react';
 // import * as ReactDOM from 'react-dom';
 import './App.css';
-import { setNowPage } from './index';
+import { runDemo, stopDemo, setNowPage } from './index';
 import * as Chart from 'react-chartjs-2';
 import * as $ from 'jquery';
-//600
-/*function makeArray(start: number, stop: number, stride: number): number[] {
-  const ary: number[] = [];
-  for (let i = start; i <= stop; i += stride) {
-    ary.push(i);
-  }
-  return ary;
-}*/
+
+const demoDesc: string[][] = [
+    ["テキストチャットアプリを模したデモです。", "長い長い長い長い説明が入る"],
+    ["写真管理アプリを模したデモです。", "長い長い長い長い説明が入る"],
+    ["ビル管理システムを模したデモです。", "長い長い長い長い説明が入る"],
+    ["お天気アプリを模したデモです。", "長い長い長い長い説明が入る"],
+];
 
 function randInt(min: number, max: number): number {
     return Math.floor(Math.random() * (max + 1 - min)) + min;
@@ -20,20 +19,42 @@ function randInt(min: number, max: number): number {
 interface MainButtonProps {
     page: number;
 }
-
-class MainButton extends React.Component<MainButtonProps>
+interface MainButtonState {
+    time: String;
+}
+class MainButton extends React.Component<MainButtonProps, MainButtonState>
 {
+
+    constructor(props: MainButtonProps) {
+        super(props);
+        this.state = { time: "-" };
+    }
+
     public clicked() {
         /// <reference path='index.tsx'>
         setNowPage(this.props.page);
     }
 
     public render(): React.ReactNode {
-        return <div className="button-box">
-            <input type="image" className="box" value={'box' + this.props.page}
-                src={'sample' + this.props.page + '.png'} alt={'box' + this.props.page}
-                onClick={this.clicked.bind(this)} />
-        </div>;
+        return (
+            <div className="button-box" id={"box" + this.props.page}>
+                <div className="box-left">
+                    <input type="image" className="box" value={'box' + this.props.page}
+                        src={'sample' + this.props.page + '.png'} alt={'box' + this.props.page}
+                        onClick={this.clicked.bind(this)} />
+                </div>
+                <div className="box-right">
+                    <div className="box-text">
+                        <p>{demoDesc[this.props.page][0] +
+                            (window.innerWidth >= 600 ? demoDesc[this.props.page][1] : "")}</p>
+                    </div>
+                    <div className="box-score">
+                        <p>Score: {this.state.time}</p>
+                    </div>
+                </div>
+
+            </div>
+        );
     }
 }
 
@@ -54,8 +75,6 @@ class App extends React.Component<AppProps> {
             return this.render3();
         } else if (this.props.page === '4') {
             return this.render4();
-        } else if (this.props.page === '5') {
-            return this.render5();
         } else {
             return <div className="none" />;
         }
@@ -63,11 +82,21 @@ class App extends React.Component<AppProps> {
 
     private render0(): React.ReactNode {
         const node: React.ReactNode[] = [];
-        for (let i: number = 0; i < 6; i++) {
+        for (let i: number = 0; i < 4; i++) {
             node.push(<MainButton page={i} />);
         }
         return (
-            <div className="all-container-0">{node}</div>
+            <div className="all-container-0">
+                <div className="top-container">
+                    <input type="button" className="menu" value="Run" onClick={runDemo} />
+                    <input type="button" className="menu" value="Stop" onClick={stopDemo} />
+                    <li>Total Score: 132.4sec</li>
+                </div>
+                <div className="bottom-container">
+                    {node}
+                </div>
+            </div>
+
         );
     }
     private render1(): React.ReactNode {
@@ -367,9 +396,6 @@ class App extends React.Component<AppProps> {
 
             </div>
         );
-    }
-    private render5(): React.ReactNode {
-        return <h1>demo page 5</h1>;
     }
 
 }

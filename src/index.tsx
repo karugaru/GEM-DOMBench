@@ -58,23 +58,26 @@ function pushingButtonScene(promise: Promise<any>, buttonNo: number): Promise<an
     });
 }
 
-export function setNowPage(pageNo: number) {
+export function runDemo() {
+    setTimeout(() => {
+        demo();
+    }, 0);
+    return undefined;
+}
+
+export function stopDemo() {
     interrupted = true;
+    return undefined;
+}
 
+export function setNowPage(pageNo: number) {
+    stopDemo();
     nowPage = pageNo;
-    if (nowPage !== 5) {
-        ReactDOM.render(<App page={(nowPage + 1).toString()} />, document.getElementById('root') as HTMLElement);
-    } else {
-        setTimeout(() => {
-            demo();
-        }, 0);
-
-    }
+    ReactDOM.render(<App page={(nowPage + 1).toString()} />, document.getElementById('root') as HTMLElement);
 }
 
 function demo() {
     interrupted = false;
-
     let promise: Promise<any> = Promise.resolve();
     promise = promise.then(() => {
         return makeRenderPromise(<App page="0" />, 0);
@@ -116,15 +119,6 @@ function demo() {
         return makeRenderPromise(<App page="0" />, 2000);
     });
 
-    promise = pushingButtonScene(promise, 4);
-    promise = promise.then(() => {
-        return makeRenderPromise(<App page="5" />, 500);
-    }).then(() => {
-        return makePromise(() => { }, 0);
-    }).then(() => {
-        return makeRenderPromise(<App page="0" />, 2000);
-    });
-
     promise
         .then(() => {
             return makeRenderPromise(<App page="1" />, 0);
@@ -139,21 +133,12 @@ function demo() {
             return makeRenderPromise(<App page="4" />, 0);
         })
         .then(() => {
-            return makeRenderPromise(<App page="5" />, 0);
-        }).then(() => {
             return makeRenderPromise(<App page="0" />, 0);
         })
-
-        /*.then(() => {
-          return makeRenderPromise(<App page="B" />, 1000);
-        })
-        .then(() => {
-          return makeRenderPromise(<App page='C' />, 1000);
-        })*/
         .catch(() => { });
 
 }
 
 document.addEventListener('DOMContentLoaded', function (e) {
-    demo();
+    setNowPage(-1);
 });

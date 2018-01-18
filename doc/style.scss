@@ -24,45 +24,82 @@ body {
     border-radius: 10px;
 }
 
-.all-container-0-overray {
-    background-color: black;
-    opacity: 0.5;
-    z-index: 1;
-}
-
 .all-container-0 {
     padding: 0px;
-    border: solid 0px red;
     width: 100%;
     height: 100%;
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-direction: column;
     align-content: space-around;
-    transition: all 500ms 0s ease;
-    .button-box {
-        border: solid 0px blue;
-        width: 33.3333%;
-        height: 50%;
+    .top-container {
+        height: 50px;
+        input,
+        li {
+            display: inline-block;
+            font-size: 1.3rem;
+            width: 5rem;
+            height: 50px;
+        }
+        li {
+            width: 15rem;
+            right: 0;
+        }
+    }
+    .bottom-container {
+        height: calc(100% - 50px);
         display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .box {
-        border: solid 0px green;
-        width: 80%;
-        margin: 0%;
-        height: 80%;
-        background-color: lightgreen;
-        animation: fadeIn 1s ease;
-        transition: all 100ms 0s ease;
-    }
-    .box:hover {
-        transform: scale(1.1, 1.1);
-        letter-spacing: 5px;
-    }
-    .box:active {
-        transform: scale(0.8, 0.8);
+        flex-direction: row;
+        flex-wrap: wrap;
+        .button-box {
+            width: 50%;
+            height: 50%;
+            display: flex;
+            flex-direction: row;
+            .box-left {
+                width: calc((100vh - 50px) / 2);
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                input {
+                    border: solid 0px green;
+                    width: 80%;
+                    margin: 0%;
+                    height: 80%;
+                    background-color: lightgreen;
+                    animation: fadeIn 1s ease;
+                    transition: all 100ms 0s ease;
+                }
+                input:hover {
+                    transform: scale(1.1, 1.1);
+                    letter-spacing: 5px;
+                }
+                input:active {
+                    transform: scale(0.8, 0.8);
+                }
+            }
+            .box-right {
+                width: calc(100% - (100vh - 50px) / 2);
+                display: flex;
+                flex-direction: column;
+                p {
+                    margin: 0;
+                    font-size: 0.9em;
+                }
+                .box-text {
+                    width: 100%;
+                    height: 70%;
+                    padding: 0;
+                    margin: 2px;
+                }
+                .box-score {
+                    width: 100%;
+                    height: 30%;
+                    padding: 0;
+                    margin: 2px;
+                }
+            }
+        }
     }
 }
 

@@ -24,34 +24,55 @@ body {
   border-radius: 10px;
 }
 
-.all-container-0-overray {
-  background-color: black;
-  opacity: 0.5;
-  z-index: 1;
-}
-
 .all-container-0 {
   padding: 0px;
-  border: solid 0px red;
   width: 100%;
   height: 100%;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-direction: column;
   align-content: space-around;
-  transition: all 500ms 0s ease;
 }
 
-.all-container-0 .button-box {
-  border: solid 0px blue;
-  width: 33.3333%;
+.all-container-0 .top-container {
+  height: 50px;
+}
+
+.all-container-0 .top-container input,
+.all-container-0 .top-container li {
+  display: inline-block;
+  font-size: 1.3rem;
+  width: 5rem;
+  height: 50px;
+}
+
+.all-container-0 .top-container li {
+  width: 15rem;
+  right: 0;
+}
+
+.all-container-0 .bottom-container {
+  height: calc(100% - 50px);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.all-container-0 .bottom-container .button-box {
+  width: 50%;
   height: 50%;
+  display: flex;
+  flex-direction: row;
+}
+
+.all-container-0 .bottom-container .button-box .box-left {
+  width: calc((100vh - 50px) / 2);
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.all-container-0 .box {
+.all-container-0 .bottom-container .button-box .box-left input {
   border: solid 0px green;
   width: 80%;
   margin: 0%;
@@ -61,13 +82,38 @@ body {
   transition: all 100ms 0s ease;
 }
 
-.all-container-0 .box:hover {
+.all-container-0 .bottom-container .button-box .box-left input:hover {
   transform: scale(1.1, 1.1);
   letter-spacing: 5px;
 }
 
-.all-container-0 .box:active {
+.all-container-0 .bottom-container .button-box .box-left input:active {
   transform: scale(0.8, 0.8);
+}
+
+.all-container-0 .bottom-container .button-box .box-right {
+  width: calc(100% - (100vh - 50px) / 2);
+  display: flex;
+  flex-direction: column;
+}
+
+.all-container-0 .bottom-container .button-box .box-right p {
+  margin: 0;
+  font-size: 0.9em;
+}
+
+.all-container-0 .bottom-container .button-box .box-right .box-text {
+  width: 100%;
+  height: 70%;
+  padding: 0;
+  margin: 2px;
+}
+
+.all-container-0 .bottom-container .button-box .box-right .box-score {
+  width: 100%;
+  height: 30%;
+  padding: 0;
+  margin: 2px;
 }
 
 @keyframes fadeIn {
