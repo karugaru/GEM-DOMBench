@@ -6,6 +6,7 @@ import './index.css';
 
 var interrupted: boolean = false;
 var nowPage: number = -1;
+var naviBar: Navi;
 
 registerServiceWorker();
 
@@ -31,33 +32,6 @@ function makeRenderPromise(reactElement: React.ReactElement<any>, ms: number): P
     }, ms);
 }
 
-function pushingButtonScene(promise: Promise<any>, buttonNo: number): Promise<any> {
-    let selecterStr: string = '.all-container-0 .box[value="box' + buttonNo + '"]';
-    return promise.then(() => {
-        return makePromise(() => {
-            let elem: Element | null = document.querySelector(selecterStr);
-            if (elem !== null) {
-                elem.className += ' boxhover';
-            }
-        }, 2000);
-    }).then(() => {
-        return makePromise(() => {
-            let elem: Element | null = document.querySelector(selecterStr);
-            if (elem !== null) {
-                elem.className += ' boxactive';
-            }
-        }, 500);
-    }).then(() => {
-        return makePromise(() => {
-            let elem: Element | null = document.querySelector(selecterStr);
-            if (elem !== null) {
-                elem.className = elem.className.split(' ')[0];
-            }
-
-        }, 500);
-    });
-}
-
 export function runDemo() {
     setTimeout(() => {
         demo();
@@ -78,47 +52,8 @@ export function setNowPage(pageNo: number) {
 
 function demo() {
     interrupted = false;
+
     let promise: Promise<any> = Promise.resolve();
-    promise = promise.then(() => {
-        return makeRenderPromise(<App page="0" />, 0);
-    });
-
-    promise = pushingButtonScene(promise, 0);
-    promise = promise.then(() => {
-        return makeRenderPromise(<App page="1" />, 500);
-    }).then(() => {
-        return makePromise(() => { }, 0);
-    }).then(() => {
-        return makeRenderPromise(<App page="0" />, 3000);
-    });
-
-    promise = pushingButtonScene(promise, 1);
-    promise = promise.then(() => {
-        return makeRenderPromise(<App page="2" />, 500);
-    }).then(() => {
-        return makePromise(() => { }, 0);
-    }).then(() => {
-        return makeRenderPromise(<App page="0" />, 3000);
-    });
-
-    promise = pushingButtonScene(promise, 2);
-    promise = promise.then(() => {
-        return makeRenderPromise(<App page="3" />, 500);
-    }).then(() => {
-        return makePromise(() => { }, 0);
-    }).then(() => {
-        return makeRenderPromise(<App page="0" />, 2000);
-    });
-
-    promise = pushingButtonScene(promise, 3);
-    promise = promise.then(() => {
-        return makeRenderPromise(<App page="4" />, 500);
-    }).then(() => {
-        return makePromise(() => { }, 0);
-    }).then(() => {
-        return makeRenderPromise(<App page="0" />, 2000);
-    });
-
     promise
         .then(() => {
             return makeRenderPromise(<App page="1" />, 0);
@@ -139,6 +74,55 @@ function demo() {
 
 }
 
+export function setNaviVisible(visible: boolean) {
+    naviBar.setVisible(visible);
+}
+
+interface NaviProps {
+}
+
+interface NaviState {
+    visible: boolean;
+    time: number;
+}
+
+class Navi extends React.Component<NaviProps, NaviState> {
+
+    constructor(props: NaviProps) {
+        super(props);
+        this.state = { time: -1, visible: true };
+    }
+
+    public clicked() {
+        setNowPage(-1);
+    }
+
+    public render(): React.ReactNode {
+        if (this.state.visible) {
+            var timeExpression: string = "-";
+            if (this.state.time >= 0) {
+                timeExpression = this.state.time.toFixed(2);
+            }
+            return (
+                <div className="navigate-overlay">
+                    <input type="button" className="menu" value="Back" onClick={this.clicked.bind(this)} />
+                    <div>Time: {timeExpression}</div>
+                </div>
+            );
+        } else {
+            return null;
+        }
+    }
+
+    public setVisible(visible: boolean) {
+        this.setState({ time: this.state.time, visible: visible });
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function (e) {
+    var navi = ReactDOM.render(<Navi/>, document.getElementById('navi') as HTMLElement);
+    if(navi instanceof Navi){
+        naviBar = navi;
+    }
     setNowPage(-1);
 });

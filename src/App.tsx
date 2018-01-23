@@ -1,7 +1,7 @@
 import * as React from 'react';
 // import * as ReactDOM from 'react-dom';
 import './App.css';
-import { runDemo, stopDemo, setNowPage } from './index';
+import { runDemo, setNowPage, setNaviVisible } from './index';
 import * as Chart from 'react-chartjs-2';
 import * as $ from 'jquery';
 
@@ -19,9 +19,11 @@ function randInt(min: number, max: number): number {
 interface MainButtonProps {
     page: number;
 }
+
 interface MainButtonState {
     time: String;
 }
+
 class MainButton extends React.Component<MainButtonProps, MainButtonState> {
 
     constructor(props: MainButtonProps) {
@@ -65,6 +67,11 @@ class App extends React.Component<AppProps> {
 
     public render(): React.ReactNode {
         if (this.props.page === '0') {
+            setNaviVisible(false);
+        } else {
+            setNaviVisible(true);
+        }
+        if (this.props.page === '0') {
             return this.render0();
         } else if (this.props.page === '1') {
             return this.render1();
@@ -88,7 +95,6 @@ class App extends React.Component<AppProps> {
             <div className="all-container-0">
                 <div className="top-container">
                     <input type="button" className="menu" value="Run" onClick={runDemo} />
-                    <input type="button" className="menu" value="Stop" onClick={stopDemo} />
                     <li>Total Score: 132.4sec</li>
                 </div>
                 <div className="bottom-container">
@@ -98,6 +104,7 @@ class App extends React.Component<AppProps> {
 
         );
     }
+
     private render1(): React.ReactNode {
         const elemNum: number = 1000;
         let sampleElem1: React.ReactNode[] = [];
@@ -144,6 +151,7 @@ class App extends React.Component<AppProps> {
             </div>
         );
     }
+
     private render2(): React.ReactNode {
         const elemNum: number = 1000;
 
@@ -173,6 +181,7 @@ class App extends React.Component<AppProps> {
             </div>
         );
     }
+
     private render3(): React.ReactNode {
         const floorNum: number = 20;
         const roomNum: number = 20;
@@ -188,20 +197,20 @@ class App extends React.Component<AppProps> {
                     addtionalColumn.push(
                         <td className="switch">
                             <input id={'switch' + uid} defaultChecked={randInt(0, 1) === 0} type="checkbox" />
-                            <label htmlFor={'switch' + (uid++)}/>
+                            <label htmlFor={'switch' + (uid++)} />
 
                         </td>);
                     addtionalColumn.push(
                         <td className="switch">
 
                             <input id={'switch' + uid} defaultChecked={randInt(0, 1) === 0} type="checkbox" />
-                            <label htmlFor={'switch' + (uid++)}/>
+                            <label htmlFor={'switch' + (uid++)} />
 
                         </td>);
                     addtionalColumn.push(
                         <td className="switch">
                             <input id={'switch' + uid} defaultChecked={randInt(0, 1) === 0} type="checkbox" />
-                            <label htmlFor={'switch' + (uid++)}/>
+                            <label htmlFor={'switch' + (uid++)} />
 
                         </td>);
                 }
@@ -211,7 +220,7 @@ class App extends React.Component<AppProps> {
                         <th>{'部屋' + j}</th>
                         <td className="switch">
                             <input id={'switch' + uid} defaultChecked={randInt(0, 1) === 0} type="checkbox" />
-                            <label htmlFor={'switch' + (uid++)}/>
+                            <label htmlFor={'switch' + (uid++)} />
 
                         </td>
                         <td className="nar">{randInt(18, 40)}℃</td>
@@ -235,7 +244,7 @@ class App extends React.Component<AppProps> {
                     <table>
                         <tbody>
                             <tr>
-                                <td/>
+                                <td />
                                 <th>照明</th>
                                 <th className="nar">気温</th>
                                 <th>気温設定</th>
@@ -262,6 +271,7 @@ class App extends React.Component<AppProps> {
             </div>
         );
     }
+
     private render4(): React.ReactNode {
         const dataNum: number = 100;
         var date: Date = new Date();

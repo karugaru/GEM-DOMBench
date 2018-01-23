@@ -24,6 +24,38 @@ body {
     border-radius: 10px;
 }
 
+.navigate-overlay {
+    z-index: 10000;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.7);
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 10%;
+    input {
+        float: left;
+        height: 100%;
+        width: 15%;
+        background-color: rgba(255, 255, 255, 0.7);
+        outline-color: rgba(255, 255, 255, 0.7);
+        border-style: none;
+        font-size: 8vmin;
+    }
+    input:focus {
+        background-color: rgba(255, 255, 255, 0.5);
+        outline-color: rgba(255, 255, 255, 0.5);
+    }
+    div {
+        height: 100%;
+        line-height: 250%;
+        vertical-align: middle;
+        text-align: right;
+        color: white;
+        font-size: 5vmin;
+    }
+}
+
 .all-container-0 {
     padding: 0px;
     width: 100%;
