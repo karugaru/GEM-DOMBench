@@ -1,10 +1,9 @@
 import * as React from 'react';
 // import * as ReactDOM from 'react-dom';
 import './App.css';
-import { runDemo, setNowPage, setNaviVisible } from './index';
+import { runDemo, setNowPage, setNaviVisible, getTimes, setTime, setNaviTime } from './index';
 import * as Chart from 'react-chartjs-2';
 import * as $ from 'jquery';
-
 const demoDesc: string[][] = [
     ['テキストチャットアプリを模したデモです。', '長い長い長い長い説明が入る'],
     ['写真管理アプリを模したデモです。', '長い長い長い長い説明が入る'],
@@ -18,17 +17,14 @@ function randInt(min: number, max: number): number {
 
 interface MainButtonProps {
     page: number;
+    time: number;
 }
 
-interface MainButtonState {
-    time: String;
-}
 
-class MainButton extends React.Component<MainButtonProps, MainButtonState> {
+class MainButton extends React.Component<MainButtonProps> {
 
     constructor(props: MainButtonProps) {
         super(props);
-        this.state = { time: '-' };
     }
 
     public clicked() {
@@ -37,6 +33,12 @@ class MainButton extends React.Component<MainButtonProps, MainButtonState> {
     }
 
     public render(): React.ReactNode {
+        var timeExpression: string;
+        if (this.props.time < 0) {
+            timeExpression = '-';
+        } else {
+            timeExpression = this.props.time.toFixed(2) + 'sec';
+        }
         return (
             <div className="button-box" id={'box' + this.props.page}>
                 <div className="box-left">
@@ -50,7 +52,7 @@ class MainButton extends React.Component<MainButtonProps, MainButtonState> {
                             (window.innerWidth >= 600 ? demoDesc[this.props.page][1] : '')}</p>
                     </div>
                     <div className="box-score">
-                        <p>Score: {this.state.time}</p>
+                        <p>Time: {timeExpression}</p>
                     </div>
                 </div>
 
@@ -63,7 +65,27 @@ interface AppProps {
     page: string;
 }
 
+var timeStart: number;
+
 class App extends React.Component<AppProps> {
+    constructor(props: AppProps) {
+        super(props);
+    }
+
+    public componentWillUpdate() {
+        timeStart = performance.now();
+    }
+
+    public componentDidUpdate() {
+        var timeEnd: number = (performance.now() - timeStart) / 1000;
+        var page: number = parseInt(this.props.page);
+        if (page > 0) {
+            setTimeout(() => {
+                setTime(page - 1, timeEnd);
+                setNaviTime(timeEnd);
+            }, 0);
+        }
+    }
 
     public render(): React.ReactNode {
         if (this.props.page === '0') {
@@ -87,15 +109,25 @@ class App extends React.Component<AppProps> {
     }
 
     private render0(): React.ReactNode {
+        var times: number[] = getTimes();
+
         const node: React.ReactNode[] = [];
         for (let i: number = 0; i < 4; i++) {
-            node.push(<MainButton page={i} />);
+            node.push(<MainButton page={i} time={times[i]} />);
         }
+        var timeExpression: string;
+        if (times.indexOf(-1) >= 0) {
+            timeExpression = '-';
+        } else {
+            timeExpression = times.reduce((acc, cur) => acc + cur).toFixed(2) + 'sec';
+        }
+
+
         return (
             <div className="all-container-0">
                 <div className="top-container">
                     <input type="button" className="menu" value="Run" onClick={runDemo} />
-                    <li>Total Score: 132.4sec</li>
+                    <li>Total Time: {timeExpression}</li>
                 </div>
                 <div className="bottom-container">
                     {node}
@@ -106,7 +138,7 @@ class App extends React.Component<AppProps> {
     }
 
     private render1(): React.ReactNode {
-        const elemNum: number = 1000;
+        const elemNum: number = 2000;
         let sampleElem1: React.ReactNode[] = [];
         for (let i: number = 0; i < elemNum; i++) {
             sampleElem1.push(<li>{'sample channel' + i}</li>);
@@ -153,7 +185,7 @@ class App extends React.Component<AppProps> {
     }
 
     private render2(): React.ReactNode {
-        const elemNum: number = 1000;
+        const elemNum: number = 2000;
 
         let sampleElem: React.ReactNode[] = [];
         for (let i: number = 0; i < elemNum; i++) {
@@ -183,7 +215,7 @@ class App extends React.Component<AppProps> {
     }
 
     private render3(): React.ReactNode {
-        const floorNum: number = 20;
+        const floorNum: number = 60;
         const roomNum: number = 20;
         let uid: number = 0;
         let roomAnchor: React.ReactNode[] = [];
@@ -273,7 +305,7 @@ class App extends React.Component<AppProps> {
     }
 
     private render4(): React.ReactNode {
-        const dataNum: number = 100;
+        const dataNum: number = 1000;
         var date: Date = new Date();
         var headers: string[] = ['場所', '測定日時', '気温', '湿度', '風速'];
         var datas: { location: string, date: Date, data0: number, data1: number, data2: number }[] = [];

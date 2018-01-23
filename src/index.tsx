@@ -7,7 +7,7 @@ import './index.css';
 var interrupted: boolean = false;
 var nowPage: number = -1;
 var naviBar: Navi;
-
+var times: number[] = [-1, -1, -1, -1];
 registerServiceWorker();
 
 function makePromise(func: Function, ms: number): Promise<any> {
@@ -78,6 +78,18 @@ export function setNaviVisible(visible: boolean) {
     naviBar.setVisible(visible);
 }
 
+export function setNaviTime(time: number) {
+    naviBar.setTime(time);
+}
+
+export function setTime(page: number, time: number) {
+    times[page] = time;
+}
+
+export function getTimes(): number[] {
+    return times;
+}
+
 interface NaviProps {
 }
 
@@ -99,9 +111,9 @@ class Navi extends React.Component<NaviProps, NaviState> {
 
     public render(): React.ReactNode {
         if (this.state.visible) {
-            var timeExpression: string = "-";
+            var timeExpression: string = '-';
             if (this.state.time >= 0) {
-                timeExpression = this.state.time.toFixed(2);
+                timeExpression = this.state.time.toFixed(2) + 'sec';
             }
             return (
                 <div className="navigate-overlay">
@@ -117,11 +129,15 @@ class Navi extends React.Component<NaviProps, NaviState> {
     public setVisible(visible: boolean) {
         this.setState({ time: this.state.time, visible: visible });
     }
+
+    public setTime(time: number) {
+        this.setState({ time: time, visible: this.state.visible });
+    }
 }
 
 document.addEventListener('DOMContentLoaded', function (e) {
-    var navi = ReactDOM.render(<Navi/>, document.getElementById('navi') as HTMLElement);
-    if(navi instanceof Navi){
+    var navi = ReactDOM.render(<Navi />, document.getElementById('navi') as HTMLElement);
+    if (navi instanceof Navi) {
         naviBar = navi;
     }
     setNowPage(-1);
