@@ -6,10 +6,10 @@ import * as Chart from 'react-chartjs-2';
 import * as $ from 'jquery';
 
 const demoDesc: string[][] = [
-    ["テキストチャットアプリを模したデモです。", "長い長い長い長い説明が入る"],
-    ["写真管理アプリを模したデモです。", "長い長い長い長い説明が入る"],
-    ["ビル管理システムを模したデモです。", "長い長い長い長い説明が入る"],
-    ["お天気アプリを模したデモです。", "長い長い長い長い説明が入る"],
+    ['テキストチャットアプリを模したデモです。', '長い長い長い長い説明が入る'],
+    ['写真管理アプリを模したデモです。', '長い長い長い長い説明が入る'],
+    ['ビル管理システムを模したデモです。', '長い長い長い長い説明が入る'],
+    ['お天気アプリを模したデモです。', '長い長い長い長い説明が入る'],
 ];
 
 function randInt(min: number, max: number): number {
@@ -22,12 +22,11 @@ interface MainButtonProps {
 interface MainButtonState {
     time: String;
 }
-class MainButton extends React.Component<MainButtonProps, MainButtonState>
-{
+class MainButton extends React.Component<MainButtonProps, MainButtonState> {
 
     constructor(props: MainButtonProps) {
         super(props);
-        this.state = { time: "-" };
+        this.state = { time: '-' };
     }
 
     public clicked() {
@@ -37,7 +36,7 @@ class MainButton extends React.Component<MainButtonProps, MainButtonState>
 
     public render(): React.ReactNode {
         return (
-            <div className="button-box" id={"box" + this.props.page}>
+            <div className="button-box" id={'box' + this.props.page}>
                 <div className="box-left">
                     <input type="image" className="box" value={'box' + this.props.page}
                         src={'sample' + this.props.page + '.png'} alt={'box' + this.props.page}
@@ -46,7 +45,7 @@ class MainButton extends React.Component<MainButtonProps, MainButtonState>
                 <div className="box-right">
                     <div className="box-text">
                         <p>{demoDesc[this.props.page][0] +
-                            (window.innerWidth >= 600 ? demoDesc[this.props.page][1] : "")}</p>
+                            (window.innerWidth >= 600 ? demoDesc[this.props.page][1] : '')}</p>
                     </div>
                     <div className="box-score">
                         <p>Score: {this.state.time}</p>
@@ -188,31 +187,31 @@ class App extends React.Component<AppProps> {
                 if (window.innerWidth >= 600) {
                     addtionalColumn.push(
                         <td className="switch">
-                            <input id={"switch" + uid} defaultChecked={randInt(0, 1) == 0} type="checkbox" />
-                            <label htmlFor={"switch" + (uid++)}></label>
+                            <input id={'switch' + uid} defaultChecked={randInt(0, 1) === 0} type="checkbox" />
+                            <label htmlFor={'switch' + (uid++)}/>
 
                         </td>);
                     addtionalColumn.push(
                         <td className="switch">
 
-                            <input id={"switch" + uid} defaultChecked={randInt(0, 1) == 0} type="checkbox" />
-                            <label htmlFor={"switch" + (uid++)}></label>
+                            <input id={'switch' + uid} defaultChecked={randInt(0, 1) === 0} type="checkbox" />
+                            <label htmlFor={'switch' + (uid++)}/>
 
                         </td>);
                     addtionalColumn.push(
                         <td className="switch">
-                            <input id={"switch" + uid} defaultChecked={randInt(0, 1) == 0} type="checkbox" />
-                            <label htmlFor={"switch" + (uid++)}></label>
+                            <input id={'switch' + uid} defaultChecked={randInt(0, 1) === 0} type="checkbox" />
+                            <label htmlFor={'switch' + (uid++)}/>
 
                         </td>);
                 }
 
                 roomElem.push(
                     <tr>
-                        <th>{"部屋" + j}</th>
+                        <th>{'部屋' + j}</th>
                         <td className="switch">
-                            <input id={"switch" + uid} defaultChecked={randInt(0, 1) == 0} type="checkbox" />
-                            <label htmlFor={"switch" + (uid++)}></label>
+                            <input id={'switch' + uid} defaultChecked={randInt(0, 1) === 0} type="checkbox" />
+                            <label htmlFor={'switch' + (uid++)}/>
 
                         </td>
                         <td className="nar">{randInt(18, 40)}℃</td>
@@ -229,14 +228,14 @@ class App extends React.Component<AppProps> {
                 addtionalColumn.push(<th>施錠</th>);
                 addtionalColumn.push(<th>警報装置</th>);
             }
-            roomAnchor.push(<li className="item"><a href={"#floor" + i}>{i + "階"}</a></li>);
+            roomAnchor.push(<li className="item"><a href={'#floor' + i}>{i + '階'}</a></li>);
             floorElem.push(
                 <fieldset>
-                    <legend id={"floor" + i}>{i + "階"}</legend>
+                    <legend id={'floor' + i}>{i + '階'}</legend>
                     <table>
                         <tbody>
                             <tr>
-                                <td></td>
+                                <td/>
                                 <th>照明</th>
                                 <th className="nar">気温</th>
                                 <th>気温設定</th>
@@ -266,13 +265,13 @@ class App extends React.Component<AppProps> {
     private render4(): React.ReactNode {
         const dataNum: number = 100;
         var date: Date = new Date();
-        var headers: string[] = ["場所", "測定日時", "気温", "湿度", "風速"];
+        var headers: string[] = ['場所', '測定日時', '気温', '湿度', '風速'];
         var datas: { location: string, date: Date, data0: number, data1: number, data2: number }[] = [];
 
 
         for (var i: number = 0; i < dataNum; i++) {
             datas.push({
-                location: "地点1",
+                location: '地点1',
                 date: new Date(date),
                 data0: randInt(25, 35),
                 data1: randInt(40, 80),
@@ -284,14 +283,14 @@ class App extends React.Component<AppProps> {
 
         var dateStrings: string[] = [];
         for (var i = 0; i < dataNum; i++) {
-            if (i == 0 || datas[i - 1].date.getDate() != datas[i].date.getDate()) {
-                dateStrings.push((datas[i].date.getMonth() + 1) + "/" + datas[i].date.getDate() + " " +
-                    datas[i].date.getHours() + ":" + datas[i].date.getMinutes());
+            if (i === 0 || datas[i - 1].date.getDate() !== datas[i].date.getDate()) {
+                dateStrings.push((datas[i].date.getMonth() + 1) + '/' + datas[i].date.getDate() + ' ' +
+                    datas[i].date.getHours() + ':' + datas[i].date.getMinutes());
             } else {
-                dateStrings.push((datas[i].date.getHours() + 1) + ":" + datas[i].date.getMinutes());
+                dateStrings.push((datas[i].date.getHours() + 1) + ':' + datas[i].date.getMinutes());
             }
         }
-        //console.log(dateStrings);
+        // console.log(dateStrings);
 
         var charts: React.ReactNode[] = [];
         for (var i: number = 0; i < 3; i++) {
@@ -300,24 +299,24 @@ class App extends React.Component<AppProps> {
             var maxValue: number = 0;
             var minValue: number = 0;
 
-            if (i == 0) {
-                colorString = "rgba(255,99,132,1)";
-                dataArray = datas.map(x => x.data0)
+            if (i === 0) {
+                colorString = 'rgba(255,99,132,1)';
+                dataArray = datas.map(x => x.data0);
                 maxValue = 40;
                 minValue = 20;
-            } else if (i == 1) {
-                colorString = "rgba(54,162,235,1)";
-                dataArray = datas.map(x => x.data1)
+            } else if (i === 1) {
+                colorString = 'rgba(54,162,235,1)';
+                dataArray = datas.map(x => x.data1);
                 maxValue = 90;
                 minValue = 30;
-            } else if (i == 2) {
-                colorString = "rgba(75,192,192,1)";
-                dataArray = datas.map(x => x.data2)
+            } else if (i === 2) {
+                colorString = 'rgba(75,192,192,1)';
+                dataArray = datas.map(x => x.data2);
                 maxValue = 10;
                 minValue = -1;
             } else {
-                colorString = "";
-                dataArray = []
+                colorString = '';
+                dataArray = [];
             }
 
             const chartData = {
@@ -332,25 +331,25 @@ class App extends React.Component<AppProps> {
                         data: dataArray,
                     }
                 ]
-            }
+            };
 
             const options = {
                 maintainAspectRatio: true,
                 responsive: true,
                 scales: { yAxes: [{ ticks: { beginAtZero: false, min: minValue, max: maxValue } }] },
                 onClick: (e: MouseEvent, item: { _index: number }[]) => {
-                    //console.log(chartData.datasets[0].label);
-                    //console.log(e);
-                    //console.log(item);
+                    // console.log(chartData.datasets[0].label);
+                    // console.log(e);
+                    // console.log(item);
                     if (item.length > 0) {
-                        //console.log(item[0]._index);
+                        // console.log(item[0]._index);
 
                         var tableRow = $('table tr:eq(' + (item[0]._index + 1) + ')');
                         var offset = tableRow.offset();
                         if (offset !== undefined) {
-                            $("html,body").animate({ scrollTop: offset.top });
-                            tableRow.find('td:eq(0)').css("background-color", "red");
-                            setTimeout(() => { tableRow.find('td:eq(0)').css("background-color", ""); }, 1500);
+                            $('html,body').animate({ scrollTop: offset.top });
+                            tableRow.find('td:eq(0)').css('background-color', 'red');
+                            setTimeout(() => { tableRow.find('td:eq(0)').css('background-color', ''); }, 1500);
                         }
                     }
                 }
@@ -363,9 +362,9 @@ class App extends React.Component<AppProps> {
             <tr>
                 <th>{headers[0]}</th>
                 <th>{headers[1]}</th>
-                <th style={{ backgroundColor: "rgb(255, 23, 73)" }}>{headers[2]}</th>
-                <th style={{ backgroundColor: "rgb(0, 110, 184)" }}>{headers[3]}</th>
-                <th style={{ backgroundColor: "rgb(0, 134, 134)" }}>{headers[4]}</th>
+                <th style={{ backgroundColor: 'rgb(255, 23, 73)' }}>{headers[2]}</th>
+                <th style={{ backgroundColor: 'rgb(0, 110, 184)' }}>{headers[3]}</th>
+                <th style={{ backgroundColor: 'rgb(0, 134, 134)' }}>{headers[4]}</th>
             </tr>
         );
         for (var i: number = 0; i < dataNum; i++) {
@@ -373,10 +372,11 @@ class App extends React.Component<AppProps> {
             rows.push(
                 <tr>
                     <td>{datas[i].location}</td>
-                    <td>{"" + date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes()}</td>
-                    <td style={{ backgroundColor: "rgba(255,99,132,1)" }}>{datas[i].data0 + "℃"}</td>
-                    <td style={{ backgroundColor: "rgba(54,162,235,1" }}>{datas[i].data1 + "％"}</td>
-                    <td style={{ backgroundColor: "rgba(75,192,192,1)" }}>{datas[i].data2 + "m/s"}</td>
+                    <td>{'' + date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() +
+                        ' ' + date.getHours() + ':' + date.getMinutes()}</td>
+                    <td style={{ backgroundColor: 'rgba(255,99,132,1)' }}>{datas[i].data0 + '℃'}</td>
+                    <td style={{ backgroundColor: 'rgba(54,162,235,1' }}>{datas[i].data1 + '％'}</td>
+                    <td style={{ backgroundColor: 'rgba(75,192,192,1)' }}>{datas[i].data2 + 'm/s'}</td>
                 </tr>
             );
         }
