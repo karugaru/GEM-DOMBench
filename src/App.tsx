@@ -4,12 +4,19 @@ import './App.css';
 import { runDemo, setNowPage, setNaviVisible, getTimes, setTime, setNaviTime } from './index';
 import * as Chart from 'react-chartjs-2';
 import * as $ from 'jquery';
+
 const demoDesc: string[][] = [
     ['テキストチャットアプリを模したデモです。', '長い長い長い長い説明が入る'],
     ['写真管理アプリを模したデモです。', '長い長い長い長い説明が入る'],
     ['ビル管理システムを模したデモです。', '長い長い長い長い説明が入る'],
     ['お天気アプリを模したデモです。', '長い長い長い長い説明が入る'],
 ];
+
+const page1ElementNum: number = 2000;
+const page2ElementNum: number = 2000;
+const page3FloorNum: number = 60;
+const page3RoomNum: number = 20;
+const page4DataNum: number = 1000;
 
 function randInt(min: number, max: number): number {
     return Math.floor(Math.random() * (max + 1 - min)) + min;
@@ -138,13 +145,12 @@ class App extends React.Component<AppProps> {
     }
 
     private render1(): React.ReactNode {
-        const elemNum: number = 2000;
         let sampleElem1: React.ReactNode[] = [];
-        for (let i: number = 0; i < elemNum; i++) {
+        for (let i: number = 0; i < page1ElementNum; i++) {
             sampleElem1.push(<li>{'sample channel' + i}</li>);
         }
         let sampleElem2: React.ReactNode[] = [];
-        for (let i: number = 0; i < elemNum; i++) {
+        for (let i: number = 0; i < page1ElementNum; i++) {
             sampleElem2.push(
                 <div className="balloon balloon-left">
                     <p>{'sample text.' + (i * 2)}</p>
@@ -157,7 +163,7 @@ class App extends React.Component<AppProps> {
             );
         }
         let sampleElem3: React.ReactNode[] = [];
-        for (let i: number = 0; i < elemNum; i++) {
+        for (let i: number = 0; i < page1ElementNum; i++) {
             sampleElem3.push(<li>{'MemoMemoMemoMemoMemoMemoMemoMemoMemoMemo' + i}</li>);
         }
 
@@ -185,10 +191,8 @@ class App extends React.Component<AppProps> {
     }
 
     private render2(): React.ReactNode {
-        const elemNum: number = 2000;
-
         let sampleElem: React.ReactNode[] = [];
-        for (let i: number = 0; i < elemNum; i++) {
+        for (let i: number = 0; i < page2ElementNum; i++) {
             sampleElem.push(
                 <div className="image-container">
                     <img src="sample.jpg" />
@@ -215,14 +219,12 @@ class App extends React.Component<AppProps> {
     }
 
     private render3(): React.ReactNode {
-        const floorNum: number = 60;
-        const roomNum: number = 20;
         let uid: number = 0;
         let roomAnchor: React.ReactNode[] = [];
         let floorElem: React.ReactNode[] = [];
-        for (let i: number = 1; i <= floorNum; i++) {
+        for (let i: number = 1; i <= page3FloorNum; i++) {
             let roomElem: React.ReactNode[] = [];
-            for (let j: number = 0; j < roomNum; j++) {
+            for (let j: number = 0; j < page3RoomNum; j++) {
 
                 let addtionalColumn: React.ReactNode[] = [];
                 if (window.innerWidth >= 600) {
@@ -305,13 +307,12 @@ class App extends React.Component<AppProps> {
     }
 
     private render4(): React.ReactNode {
-        const dataNum: number = 1000;
         var date: Date = new Date();
         var headers: string[] = ['場所', '測定日時', '気温', '湿度', '風速'];
         var datas: { location: string, date: Date, data0: number, data1: number, data2: number }[] = [];
 
 
-        for (var i: number = 0; i < dataNum; i++) {
+        for (var i: number = 0; i < page4DataNum; i++) {
             datas.push({
                 location: '地点1',
                 date: new Date(date),
@@ -324,7 +325,7 @@ class App extends React.Component<AppProps> {
         }
 
         var dateStrings: string[] = [];
-        for (var i = 0; i < dataNum; i++) {
+        for (var i = 0; i < page4DataNum; i++) {
             if (i === 0 || datas[i - 1].date.getDate() !== datas[i].date.getDate()) {
                 dateStrings.push((datas[i].date.getMonth() + 1) + '/' + datas[i].date.getDate() + ' ' +
                     datas[i].date.getHours() + ':' + datas[i].date.getMinutes());
@@ -409,7 +410,7 @@ class App extends React.Component<AppProps> {
                 <th style={{ backgroundColor: 'rgb(0, 134, 134)' }}>{headers[4]}</th>
             </tr>
         );
-        for (var i: number = 0; i < dataNum; i++) {
+        for (var i: number = 0; i < page4DataNum; i++) {
             date = datas[i].date;
             rows.push(
                 <tr>
