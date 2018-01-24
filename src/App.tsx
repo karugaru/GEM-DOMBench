@@ -13,6 +13,7 @@ const demoDesc: string[][] = [
 ];
 
 const page1ElementNum: number = 2000;
+const page2ImageNum: number = 11;
 const page2ElementNum: number = 2000;
 const page3FloorNum: number = 60;
 const page3RoomNum: number = 20;
@@ -191,13 +192,18 @@ class App extends React.Component<AppProps> {
     }
 
     private render2(): React.ReactNode {
+        var imageID: number = 0;
         let sampleElem: React.ReactNode[] = [];
         for (let i: number = 0; i < page2ElementNum; i++) {
             sampleElem.push(
                 <div className="image-container">
-                    <img src="sample.jpg" />
+                    <img src={'images/image' + imageID + '.jpg'} />
                 </div>
             );
+            imageID++;
+            if (imageID == page2ImageNum) {
+                imageID = 0;
+            }
         }
 
         return (

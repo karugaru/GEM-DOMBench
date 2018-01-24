@@ -5,8 +5,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 
 ## アイコン素材サイト:  
-    http://flat-icon-design.com/  
-    https://www.iconsdb.com/  
+    [FLAT ICON DESIGN](http://flat-icon-design.com/)
+    [ICONSDB](https://www.iconsdb.com/)
+    [フリー素材ぱくたそ](www.pakutaso.com)
 
 ## 説明：  
 このアプリはDOM操作がG1M(など)の上できちんと高速に動作することを  
