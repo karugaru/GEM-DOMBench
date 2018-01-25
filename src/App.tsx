@@ -5,19 +5,28 @@ import { runDemo, setNowPage, setNaviVisible, getTimes, setTime, setNaviTime } f
 import * as Chart from 'react-chartjs-2';
 import * as $ from 'jquery';
 
-const demoDesc: string[][] = [
-    ['テキストチャットアプリを模したデモです。', '長い長い長い長い説明が入る'],
-    ['写真管理アプリを模したデモです。', '長い長い長い長い説明が入る'],
-    ['ビル管理システムを模したデモです。', '長い長い長い長い説明が入る'],
-    ['お天気アプリを模したデモです。', '長い長い長い長い説明が入る'],
-];
-
 const page1ElementNum: number = 2000;
 const page2ImageNum: number = 11;
 const page2ElementNum: number = 2000;
 const page3FloorNum: number = 60;
 const page3RoomNum: number = 20;
 const page4DataNum: number = 1000;
+
+const demoDesc: string[][] = [
+    ['テキストチャットアプリを模したデモです。', 'Slackのようなメッセンジャーアプリを想定しています。' +
+        '大量の要素を配置、表示したときに問題がないかをチェックする意味も兼ねています。チャンネル、メモが各' +
+        page1ElementNum + '件表示され、' + (page1ElementNum * 2) +
+        '件のメッセージが表示されます。これらはli、div、p要素などで構成されています。'],
+    ['写真管理アプリを模したデモです。', '大量の画像要素を配置、表示したときに問題がないかをチェックする意味も兼ねています。' +
+        page2ImageNum + '種類のサンプル画像が' + page2ElementNum +
+        '件配置されます。これらはdiv、img要素などで構成されています。操作ボタンはダミーです。'],
+    ['ビル管理システムを模したデモです。', '各階の各部屋の電気や施錠などをリモートコントロールするシステムを想定しています。' +
+        'また、画面幅に応じていくつかの項目が省略されます。' + page3FloorNum + '階建てで、各階に部屋が' +
+        page3RoomNum + '室あります。これらはテーブル要素、input、label要素などで構成されています。'],
+    ['お天気アプリを模したデモです。', '気温、湿度、風速などを表にし、グラフを表示します。グラフ描画にはChart.jsを使用しています。' +
+        'グラフの各点をクリックすると表の対応した部分に移動します。データは' + page4DataNum +
+        '件あります。これらはテーブル要素、canvas要素などで構成されています。'],
+];
 
 function randInt(min: number, max: number): number {
     return Math.floor(Math.random() * (max + 1 - min)) + min;
