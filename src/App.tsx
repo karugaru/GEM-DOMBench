@@ -202,9 +202,7 @@ class App extends React.Component<AppProps, AppState> {
             <div className="all-container-1">
                 <div className="left-container">
                     <div className="info-container">
-                        <div className="face-image">
-                            <a>image</a>
-                        </div>
+                        <img className="face-image" src={'account.jpg'} />
                     </div>
                     <div className="channel-container">
                         {channelElements}
@@ -225,18 +223,20 @@ class App extends React.Component<AppProps, AppState> {
     private render2(): React.ReactNode {
         seed = 2;
 
-        var imageID: number = 0;
+        var imageIDArray: number[] = [];
+
         let imageElements: React.ReactNode[] = [];
         for (let i: number = 0; i < this.state.page2ImageViewNum; i++) {
+            if (imageIDArray.length === 0) {
+                imageIDArray = new Array(this.state.page2ImageNum).fill(0).map((value, index, ary) => { return index; });
+            }
+
             imageElements.push(
                 <div className="image-container" key={i}>
-                    <img src={'images/image' + imageID + '.jpg'} />
+                    <img src={'images/image' + imageIDArray[imageIDArray.length - 1] + '.jpg'} />
                 </div>
             );
-            imageID++;
-            if (imageID == this.state.page2ImageNum) {
-                imageID = 0;
-            }
+            imageIDArray.pop();
         }
         imageElements = this.arrayCutFromLast(imageElements, Index.pageElementMax);
 

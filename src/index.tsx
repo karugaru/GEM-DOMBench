@@ -8,8 +8,8 @@ export const pageElementMax: number = 100; //1セクションに同時に表示�
 export const page1ChannelNum: number = 100;
 export const page1MessageNum: number = 1200;
 export const page1UserNum: number = 100;
-export const page2ImageNum: number = 11;
-export const page2ImageViewNum: number = 1500;
+export const page2ImageNum: number = 30;
+export const page2ImageViewNum: number = 150;
 export const page3FloorNum: number = 120;
 export const page3RoomNum: number = 40;
 export const page4DataNum: number = 350;
@@ -278,7 +278,7 @@ class Navi extends React.Component<NaviProps, NaviState> {
             return (
                 <div className="navigate-overlay">
                     <input type="button" className="menu" value="Back" onClick={this.clicked.bind(this)} />
-                    <div>Avg Time: {timeAvgExpression}  Total Time: {timeSumExpression}</div>
+                    <div>{"Avg Time: " + timeAvgExpression + "   Total Time: " + timeSumExpression}</div>
                 </div>
             );
         } else {
