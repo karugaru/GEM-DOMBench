@@ -30,7 +30,7 @@ class MainButton extends React.Component<MainButtonProps> {
 
     public clicked() {
         /// <reference path='index.tsx'>
-        Index.setNowPage(this.props.page,()=>{});
+        Index.setNowPage(this.props.page, () => { });
     }
 
     public render(): React.ReactNode {
@@ -128,7 +128,7 @@ class App extends React.Component<AppProps, AppState> {
     private render0(): React.ReactNode {
         var sum: number = 0;
         const node: React.ReactNode[] = [];
-        for (let i: number = 0; i < 4; i++) {
+        for (let i: number = 1; i <= 4; i++) {
 
             var cur: number = 0;
             if (Index.processTimes[i].length > 0) {
@@ -447,7 +447,7 @@ class App extends React.Component<AppProps, AppState> {
         for (var i: number = 0; i < datas.length; i++) {
             date = datas[i].date;
             rows.push(
-                <tr key={date.getTime()} id={""+date.getTime()}>
+                <tr key={date.getTime()} id={"" + date.getTime()}>
                     <td>{datas[i].location}</td>
                     <td>{'' + date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() +
                         ' ' + date.getHours() + ':' + date.getMinutes()}</td>

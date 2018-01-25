@@ -15,6 +15,7 @@ export const page3RoomNum: number = 40;
 export const page4DataNum: number = 350;
 
 export const demoDesc: string[][] = [
+    [],
     ['テキストチャットアプリを模したデモです。', 'Slackのようなメッセンジャーアプリを想定しています。' +
         '大量の要素を配置、表示したときに問題がないかをチェックする意味も兼ねています。', 'チャンネルが' +
         page1ChannelNum + 'つ、ユーザーが' + page1UserNum + '人、メッセージが' +
@@ -32,7 +33,7 @@ export const demoDesc: string[][] = [
 
 var interrupted: boolean = false;
 export var naviBar: Navi;
-export var processTimes: number[][] = [[], [], [], []];
+export var processTimes: number[][] = [[],[], [], [], []];
 registerServiceWorker();
 
 export function runDemo() {
@@ -55,9 +56,9 @@ function timeMark(page: number) {
     } else {
         var time: number = (now - timeStamp) / 1000;
         if (page > 0) {
-            processTimes[page - 1].push(time);
-            var sum = processTimes[page - 1].reduce((acc, cur) => { return acc + cur; })
-            var avg = sum / processTimes[page - 1].length;
+            processTimes[page].push(time);
+            var sum = processTimes[page].reduce((acc, cur) => { return acc + cur; })
+            var avg = sum / processTimes[page].length;
             setTimeout(() => {
                 naviBar.setTime(sum, avg);
             }, 0);
@@ -232,16 +233,16 @@ function setPage4(callback: () => void) {
 
 export function setNowPage(pageNo: number, callback: () => void) {
     stopDemo();
+    timeStamp = undefined;
     if (pageNo > 0) {
-        timeStamp = undefined;
-        processTimes[pageNo - 1] = [];
+        processTimes[pageNo] = [];
     }
-    [setPage0, setPage1, setPage2, setPage3, setPage4][pageNo + 1](callback);
+    ([setPage0, setPage1, setPage2, setPage3, setPage4][pageNo])(callback);
 }
 
 function demo() {
     interrupted = false;
-    setPage1(() => { setPage2(() => { setPage3(() => { setPage4(() => { setPage0(() => { }) }) }) }) });
+    setNowPage(1, () => { setNowPage(2, () => { setNowPage(3, () => { setNowPage(4, () => { setNowPage(0, () => { }) }) }) }) });
 }
 
 interface NaviProps {
@@ -261,7 +262,7 @@ class Navi extends React.Component<NaviProps, NaviState> {
     }
 
     public clicked() {
-        setNowPage(-1, () => { });
+        setNowPage(0, () => { });
     }
 
     public render(): React.ReactNode {
@@ -300,5 +301,5 @@ document.addEventListener('DOMContentLoaded', function (e) {
     if (navi instanceof Navi) {
         naviBar = navi;
     }
-    setNowPage(-1, () => { });
+    setNowPage(0, () => { });
 });
