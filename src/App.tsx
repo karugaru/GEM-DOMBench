@@ -348,7 +348,8 @@ class App extends React.Component<AppProps, AppState> {
             );
         }
         if (Index.pageElementMax <= floorElem.length * this.state.page3RoomNum) {
-            floorElem = this.arrayCutFromLast(floorElem, Math.ceil(Index.pageElementMax / this.state.page3RoomNum));
+            floorElem = this.arrayCutFromLast(floorElem,
+                Math.ceil(Index.pageElementMax / this.state.page3RoomNum));
         }
         return (
             <div className="all-container-3">
@@ -363,7 +364,6 @@ class App extends React.Component<AppProps, AppState> {
             </div>
         );
     }
-
     private render4(): React.ReactNode {
         seed = 4;
         var date: Date = new Date(2017, 1, 24, 12, 30, 1, 1);
@@ -388,10 +388,17 @@ class App extends React.Component<AppProps, AppState> {
         var dateStrings: string[] = [];
         for (var i = 0; i < datas.length; i++) {
             if (i === 0 || datas[i - 1].date.getDate() !== datas[i].date.getDate()) {
-                dateStrings.push((datas[i].date.getMonth() + 1) + '/' + datas[i].date.getDate() + ' ' +
-                    datas[i].date.getHours() + ':' + datas[i].date.getMinutes());
+                dateStrings.push(
+                    ('0' + (datas[i].date.getMonth() + 1)).slice(-2) + '/' +
+                    ('0' + datas[i].date.getDate()).slice(-2) + ' ' +
+                    ('0' + datas[i].date.getHours()).slice(-2) + ':' +
+                    ('0' + datas[i].date.getMinutes()).slice(-2)
+                );
             } else {
-                dateStrings.push((datas[i].date.getHours() + 1) + ':' + datas[i].date.getMinutes());
+                dateStrings.push(
+                    ('0' + (datas[i].date.getHours() + 1)).slice(-2) + ':' +
+                    ('0' + datas[i].date.getMinutes()).slice(-2)
+                );
             }
         }
 
@@ -472,8 +479,13 @@ class App extends React.Component<AppProps, AppState> {
             rows.push(
                 <tr key={date.getTime()} id={"" + date.getTime()}>
                     <td>{datas[i].location}</td>
-                    <td>{'' + date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() +
-                        ' ' + date.getHours() + ':' + date.getMinutes()}</td>
+                    <td>{
+                        ('000' + date.getFullYear()).slice(-4) + '/' +
+                        ('0' + (date.getMonth() + 1)).slice(-2) + '/' +
+                        ('0' + date.getDate()).slice(-2) + ' ' +
+                        ('0' + date.getHours()).slice(-2) + ':' +
+                        ('0' + date.getMinutes()).slice(-2)
+                    }</td>
                     <td style={{ backgroundColor: 'rgba(255,99,132,1)' }}>{datas[i].data0 + '℃'}</td>
                     <td style={{ backgroundColor: 'rgba(54,162,235,1' }}>{datas[i].data1 + '％'}</td>
                     <td style={{ backgroundColor: 'rgba(75,192,192,1)' }}>{datas[i].data2 + 'm/s'}</td>
