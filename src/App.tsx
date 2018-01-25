@@ -18,7 +18,8 @@ function randInt(min: number, max: number): number {
 
 interface MainButtonProps {
     page: number;
-    time: number;
+    timeSum: number;
+    timeAvg: number;
 }
 
 
@@ -34,12 +35,21 @@ class MainButton extends React.Component<MainButtonProps> {
     }
 
     public render(): React.ReactNode {
-        var timeExpression: string;
-        if (this.props.time <= 0) {
-            timeExpression = '-';
+        var timeSumExpression: string;
+        var timeAvgExpression: string;
+
+        if (this.props.timeSum <= 0) {
+            timeSumExpression = '-';
         } else {
-            timeExpression = this.props.time.toFixed(2) + 'sec';
+            timeSumExpression = this.props.timeSum.toFixed(2) + 'sec';
         }
+
+        if (this.props.timeAvg <= 0) {
+            timeAvgExpression = '-';
+        } else {
+            timeAvgExpression = this.props.timeAvg.toFixed(2) + 'sec';
+        }
+
         return (
             <div className="button-box" id={'box' + this.props.page}>
                 <div className="box-left">
@@ -54,10 +64,9 @@ class MainButton extends React.Component<MainButtonProps> {
                                 (window.innerWidth >= 1000 ? Index.demoDesc[this.props.page][2] : '') : '')}</p>
                     </div>
                     <div className="box-score">
-                        <p>Time: {timeExpression}</p>
+                        <p>Avg: {timeAvgExpression}<br />Total: {timeSumExpression}</p>
                     </div>
                 </div>
-
             </div>
         );
     }
@@ -131,11 +140,13 @@ class App extends React.Component<AppProps, AppState> {
         for (let i: number = 1; i <= 4; i++) {
 
             var cur: number = 0;
+            var avg: number = 0;
             if (Index.processTimes[i].length > 0) {
                 cur = Index.processTimes[i].reduce((acc, cur) => { return acc + cur; });
+                avg = cur / Index.processTimes[i].length;
             }
             sum += cur;
-            node.push(<MainButton page={i} time={cur} key={i} />);
+            node.push(<MainButton page={i} timeSum={cur} timeAvg={avg} key={i} />);
         }
         var timeExpression: string;
         if (sum == 0) {
@@ -149,7 +160,7 @@ class App extends React.Component<AppProps, AppState> {
             <div className="all-container-0">
                 <div className="top-container">
                     <input type="button" className="menu" value="Run" onClick={Index.runDemo} />
-                    <li>Total Time: {timeExpression}</li>
+                    <span>Total Time: {timeExpression}</span>
                 </div>
                 <div className="bottom-container">
                     {node}

@@ -15,16 +15,15 @@ export const page3RoomNum: number = 40;
 export const page4DataNum: number = 350;
 
 export const demoDesc: string[][] = [
-    [],
-    ['テキストチャットアプリを模したデモです。', 'Slackのようなメッセンジャーアプリを想定しています。' +
-        '大量の要素を配置、表示したときに問題がないかをチェックする意味も兼ねています。', 'チャンネルが' +
-        page1ChannelNum + 'つ、ユーザーが' + page1UserNum + '人、メッセージが' +
-        page1MessageNum + '件表示されます。これらはli、div、p要素などで構成されています。'],
+    ['error', 'error', 'error'],
+    ['テキストチャットアプリを模したデモです。', '大量の要素を配置したときに問題がないかをチェックする意味も兼ねています。',
+        '形式として、Slackのようなメッセンジャーアプリを想定しています。チャンネルが' + page1ChannelNum + 'つ、ユーザーが' +
+        page1UserNum + '人、メッセージが' + page1MessageNum + '件表示されます。これらはli、div、p要素などで構成されています。'],
     ['写真管理アプリを模したデモです。', '大量の画像要素を配置、表示したときに問題がないかをチェックする意味も兼ねています。',
         page2ImageNum + '種類のサンプル画像が' + page2ImageViewNum +
         '件配置されます。これらはdiv、img要素などで構成されています。操作ボタンはダミーです。'],
-    ['ビル管理システムを模したデモです。', '各階の各部屋の電気や施錠などをリモートコントロールするシステムを想定しています。' +
-        'また、画面幅に応じていくつかの項目が省略されます。', page3FloorNum + '階建てで、各階に部屋が' +
+    ['ビル管理システムを模したデモです。', '各階の各部屋の電気や施錠などをリモートコントロールするシステムを想定しています。',
+        'また、画面幅に応じていくつかの項目が省略されます。' + page3FloorNum + '階建てで、各階に部屋が' +
         page3RoomNum + '室あります。これらはテーブル要素、input、label要素などで構成されています。'],
     ['お天気アプリを模したデモです。', '気温、湿度、風速などを表にし、グラフを表示します。' +
         'グラフの各点をクリックすると表の対応した部分に移動します。', 'グラフ描画にはChart.jsを使用しています。データは' +
@@ -33,7 +32,7 @@ export const demoDesc: string[][] = [
 
 var interrupted: boolean = false;
 export var naviBar: Navi;
-export var processTimes: number[][] = [[],[], [], [], []];
+export var processTimes: number[][] = [[], [], [], [], []];
 registerServiceWorker();
 
 export function runDemo() {
