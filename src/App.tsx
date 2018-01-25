@@ -18,6 +18,7 @@ function randInt(min: number, max: number): number {
 
 interface MainButtonProps {
     page: number;
+    times: number[];
     timeSum: number;
     timeAvg: number;
 }
@@ -33,6 +34,16 @@ class MainButton extends React.Component<MainButtonProps> {
         /// <reference path='index.tsx'>
         Index.setNowPage(this.props.page, () => { });
     }
+
+    public thinOutData<T>(array: T[], targetNum: number): T[] {
+        var interval = Math.floor(array.length / targetNum);
+        var retArray: T[] = [];
+        for (var i = 0; i < array.length; i += interval) {
+            retArray.push(array[i]);
+        }
+        return retArray;
+    }
+
 
     public render(): React.ReactNode {
         var timeSumExpression: string;
@@ -50,6 +61,28 @@ class MainButton extends React.Component<MainButtonProps> {
             timeAvgExpression = this.props.timeAvg.toFixed(2) + 'sec';
         }
 
+        var charts: React.ReactNode = null;
+        if (window.innerWidth >= 1650 && window.innerHeight >= 950) {
+            var thinData = this.props.times;// this.thinOutData(this.props.times, 100);
+            var data = {
+                labels: new Array(thinData.length),
+                datasets: [{
+                    fill: false,
+                    pointRadius: 0,
+                    lineTension: 0.1,
+                    data: thinData,
+                    backgroundColor: ['', '#5b9ad5', '#ec7b30', '#a3a3a4', '#ffbf01'][this.props.page],
+                    borderColor: ['', '#5b9ad5', '#ec7b30', '#a3a3a4', '#ffbf01'][this.props.page],
+                }]
+            };
+            var option = {
+                animation: undefined,
+                maintainAspectRatio: true,
+                responsive: true,
+                legend: { display: false }
+            };
+            charts = <Chart.Line data={data} options={option} width={480} height={220} />;
+        }
         return (
             <div className="button-box" id={'box' + this.props.page}>
                 <div className="box-left">
@@ -63,6 +96,7 @@ class MainButton extends React.Component<MainButtonProps> {
                             (window.innerWidth >= 600 ? Index.demoDesc[this.props.page][1] +
                                 (window.innerWidth >= 1000 ? Index.demoDesc[this.props.page][2] : '') : '')}</p>
                     </div>
+                    {charts}
                     <div className="box-score">
                         <p>Avg: {timeAvgExpression}<br />Total: {timeSumExpression}</p>
                     </div>
@@ -146,7 +180,7 @@ class App extends React.Component<AppProps, AppState> {
                 avg = cur / Index.processTimes[i].length;
             }
             sum += cur;
-            node.push(<MainButton page={i} timeSum={cur} timeAvg={avg} key={i} />);
+            node.push(<MainButton page={i} times={Index.processTimes[i].concat()} timeSum={cur} timeAvg={avg} key={i} />);
         }
         var timeExpression: string;
         if (sum == 0) {

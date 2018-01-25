@@ -17,7 +17,7 @@ export const page4DataNum: number = 350;
 export const demoDesc: string[][] = [
     ['error', 'error', 'error'],
     ['テキストチャットアプリを模したデモです。', '大量の要素を配置したときに問題がないかをチェックする意味も兼ねています。',
-        '形式として、Slackのようなメッセンジャーアプリを想定しています。チャンネルが' + page1ChannelNum + 'つ、ユーザーが' +
+        '形式として、Slackのようなメッセンジャーアプリを想定しています。チャンネルが' + page1ChannelNum + '、ユーザーが' +
         page1UserNum + '人、メッセージが' + page1MessageNum + '件表示されます。これらはli、div、p要素などで構成されています。'],
     ['写真管理アプリを模したデモです。', '大量の画像要素を配置、表示したときに問題がないかをチェックする意味も兼ねています。',
         page2ImageNum + '種類のサンプル画像が' + page2ImageViewNum +
