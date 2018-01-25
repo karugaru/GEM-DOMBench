@@ -170,21 +170,19 @@ body {
     padding: 0px;
     margin: 0px;
     .left-container {
-        background-color: red;
+        background-color: #3F51B5;
         width: 20%;
         height: 100%;
         margin: 0px;
         display: flex;
         flex-direction: column;
         .info-container {
-            background-color: rgb(255, 65, 65);
             width: 100%;
             height: 30%;
             display: flex;
             justify-content: center;
             align-items: center;
             .face-image {
-                background-color: rgb(255, 0, 0);
                 width: 20vmin;
                 height: 20vmin;
                 display: flex;
@@ -193,7 +191,6 @@ body {
             }
         }
         .channel-container {
-            background-color: rgb(255, 154, 154);
             width: 100%;
             height: 70%;
             display: flex;
@@ -211,7 +208,7 @@ body {
         }
     }
     .center-container {
-        background-color: blue;
+        background-color: #b9b9b9;
         width: 60%;
         height: 100%;
         margin: 0px;
@@ -251,7 +248,7 @@ body {
         padding: 0;
     }
     .right-container {
-        background-color: green;
+        background-color: #31abd0;
         width: 20%;
         height: 100%;
         margin: 0px;
@@ -262,7 +259,7 @@ body {
     .right-container li {
         color: black;
         border-top: solid 8px rgb(185, 165, 87);
-        background-color: rgb(255, 230, 119);
+        background-color: #fff1b2;
         padding: 3%;
         list-style-type: none;
         margin: 3%;
@@ -280,15 +277,19 @@ body {
     .top-container {
         width: 100%;
         height: 20%;
-        background-color: red;
+        background-color: #607D8B;
         display: flex;
         flex-flow: row;
         align-items: center;
         justify-content: space-around;
         input {
+            background-color: #FF5252;
+            color: white;
+            border-style: none;
             width: 15vmin;
             height: 15vmin;
             margin: 1vmin;
+            font-size: 4vmin;
         }
         input[value="exit"] {
             margin-left: auto;
@@ -297,7 +298,7 @@ body {
     .main-container {
         width: 100%;
         height: 80%;
-        background-color: blue;
+        background-color: #CFD8DC;
         display: flex;
         flex-flow: row;
         flex-wrap: wrap;
@@ -329,13 +330,13 @@ body {
     display: flex;
     flex-flow: column;
     .top-container {
+        background-color: #009688;
         width: 100%;
         height: 8%;
         z-index: 999;
         .scroll-container {
             overflow-x: auto;
             .item {
-                background: #f6f6f6;
                 display: table-cell;
                 a {
                     white-space: nowrap;
@@ -356,10 +357,8 @@ body {
         overflow-y: auto;
         fieldset {
             width: 100%;
-            background-color: whitesmoke;
             legend {
                 font-size: 2vw;
-                background-color: whitesmoke;
             }
         }
         table,
@@ -374,11 +373,10 @@ body {
             padding: 3px;
             font-size: 2vw;
         }
-        th {
-            background: #f0e6cc;
+        .row-header {
+            background-color: #FFC107;
         }
         td {
-            background: white;
             input {
                 width: 60%;
                 font-size: 1em;

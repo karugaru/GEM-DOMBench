@@ -294,7 +294,7 @@ class App extends React.Component<AppProps, AppState> {
 
                 roomElem.push(
                     <tr>
-                        <th>{'部屋' + j}</th>
+                        <th className="row-header">{'部屋' + j}</th>
                         <td className="switch">
                             <input id={'switch' + uid} defaultChecked={randInt(0, 1) === 0} type="checkbox" />
                             <label htmlFor={'switch' + (uid++)} />
