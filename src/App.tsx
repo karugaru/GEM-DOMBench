@@ -23,11 +23,31 @@ interface MainButtonProps {
     timeAvg: number;
 }
 
+interface MainButtonState {
+    windowWidth: number,
+    windowHeight: number,
+}
 
-class MainButton extends React.Component<MainButtonProps> {
+class MainButton extends React.Component<MainButtonProps, MainButtonState> {
 
     constructor(props: MainButtonProps) {
         super(props);
+        this.state = {
+            windowWidth: window.innerWidth,
+            windowHeight: window.innerWidth,
+        };
+    }
+
+    private handleResize() {
+        this.setState({ windowWidth: window.innerWidth, windowHeight: window.innerWidth });
+    }
+
+    public componentDidMount() {
+        window.addEventListener('resize', this.handleResize.bind(this));
+    }
+
+    public componentWillUnmount() {
+        window.removeEventListener('resize', this.handleResize.bind(this));
     }
 
     public clicked() {
@@ -62,7 +82,7 @@ class MainButton extends React.Component<MainButtonProps> {
         }
 
         var charts: React.ReactNode = null;
-        if (window.innerWidth >= 1650 && window.innerHeight >= 950) {
+        if (this.state.windowWidth >= 1650 && this.state.windowHeight >= 950) {
             var thinData = this.props.times;// this.thinOutData(this.props.times, 100);
             var data = {
                 labels: new Array(thinData.length),
@@ -93,8 +113,8 @@ class MainButton extends React.Component<MainButtonProps> {
                 <div className="box-right">
                     <div className="box-text">
                         <p>{Index.demoDesc[this.props.page][0] +
-                            (window.innerWidth >= 600 ? Index.demoDesc[this.props.page][1] +
-                                (window.innerWidth >= 1000 ? Index.demoDesc[this.props.page][2] : '') : '')}</p>
+                            (this.state.windowWidth >= 600 ? Index.demoDesc[this.props.page][1] +
+                                (this.state.windowWidth >= 1000 ? Index.demoDesc[this.props.page][2] : '') : '')}</p>
                     </div>
 
                     <div className="box-score">
@@ -120,6 +140,8 @@ interface AppState {
     page3FloorNum: number;
     page3RoomNum: number;
     page4DataNum: number;
+    windowWidth: number;
+    windowHeight: number;
 }
 
 class App extends React.Component<AppProps, AppState> {
@@ -133,8 +155,14 @@ class App extends React.Component<AppProps, AppState> {
             page2ImageViewNum: 0,
             page3FloorNum: 0,
             page3RoomNum: 0,
-            page4DataNum: 0
+            page4DataNum: 0,
+            windowWidth: window.innerWidth,
+            windowHeight: window.innerWidth,
         };
+    }
+
+    private handleResize() {
+        this.setState({ windowWidth: window.innerWidth, windowHeight: window.innerWidth });
     }
 
     public componentDidUpdate() {
@@ -146,12 +174,17 @@ class App extends React.Component<AppProps, AppState> {
     }
 
     public componentDidMount() {
+        window.addEventListener('resize', this.handleResize.bind(this));
         if (this.props.page === '0') {
             Index.naviBar.setVisible(false);
         } else {
             Index.naviBar.setVisible(true);
         }
     }
+    public componentWillUnmount() {
+        window.removeEventListener('resize', this.handleResize.bind(this));
+    }
+
 
     public render(): React.ReactNode {
         if (this.props.page === '0') {
@@ -317,7 +350,7 @@ class App extends React.Component<AppProps, AppState> {
             for (let j: number = 0; j < this.state.page3RoomNum; j++) {
 
                 let addtionalColumn: React.ReactNode[] = [];
-                if (window.innerWidth >= 600) {
+                if (this.state.windowWidth >= 600) {
                     addtionalColumn.push(
                         <td className="switch">
                             <input id={'switch' + uid} defaultChecked={randInt(0, 1) === 0} type="checkbox" />
@@ -356,7 +389,7 @@ class App extends React.Component<AppProps, AppState> {
             }
 
             let addtionalColumn: React.ReactNode[] = [];
-            if (window.innerWidth >= 600) {
+            if (this.state.windowWidth >= 600) {
                 addtionalColumn.push(<th>換気</th>);
                 addtionalColumn.push(<th>施錠</th>);
                 addtionalColumn.push(<th>警報装置</th>);
