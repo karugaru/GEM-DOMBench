@@ -8,6 +8,12 @@ body {
   padding: 0px;
   width: 100vw;
   height: 100vh;
+  overflow: hidden;
+}
+
+#root {
+  width: 100vw;
+  height: 100vh;
 }
 
 ::-webkit-scrollbar {
@@ -101,7 +107,7 @@ body {
 
 .all-container-0 .bottom-container .button-box .box-left {
   width: calc((100vh - 50px) / 2);
-  height: 100%;
+  height: calc((100vh - 50px) / 2);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -141,7 +147,7 @@ body {
   width: 100%;
   height: 70%;
   padding: 0;
-  margin: 2px;
+  margin-top: 2rem;
 }
 
 .all-container-0 .bottom-container .button-box .box-right .box-score {
@@ -341,15 +347,16 @@ body {
 
 .all-container-3 {
   width: 100%;
+  height: 100%;
+  padding: 0px;
   margin: 0px;
+  display: flex;
+  flex-flow: column;
 }
 
 .all-container-3 .top-container {
   width: 100%;
   height: 8%;
-  position: fixed;
-  top: 0;
-  left: 0;
   z-index: 999;
 }
 
@@ -371,10 +378,10 @@ body {
 
 .all-container-3 .main-container {
   width: 100%;
+  height: 92%;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  margin-top: 12%;
 }
 
 .all-container-3 .main-container fieldset {

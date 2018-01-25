@@ -1,35 +1,19 @@
 import * as React from 'react';
 // import * as ReactDOM from 'react-dom';
 import './App.css';
-import { runDemo, setNowPage, setNaviVisible, getTimes, setTime, setNaviTime } from './index';
+import * as Index from './index';
 import * as Chart from 'react-chartjs-2';
 import * as $ from 'jquery';
 
-const page1ElementNum: number = 2000;
-const page2ImageNum: number = 11;
-const page2ElementNum: number = 2000;
-const page3FloorNum: number = 60;
-const page3RoomNum: number = 20;
-const page4DataNum: number = 1000;
-
-const demoDesc: string[][] = [
-    ['テキストチャットアプリを模したデモです。', 'Slackのようなメッセンジャーアプリを想定しています。' +
-        '大量の要素を配置、表示したときに問題がないかをチェックする意味も兼ねています。チャンネル、メモが各' +
-        page1ElementNum + '件表示され、' + (page1ElementNum * 2) +
-        '件のメッセージが表示されます。これらはli、div、p要素などで構成されています。'],
-    ['写真管理アプリを模したデモです。', '大量の画像要素を配置、表示したときに問題がないかをチェックする意味も兼ねています。' +
-        page2ImageNum + '種類のサンプル画像が' + page2ElementNum +
-        '件配置されます。これらはdiv、img要素などで構成されています。操作ボタンはダミーです。'],
-    ['ビル管理システムを模したデモです。', '各階の各部屋の電気や施錠などをリモートコントロールするシステムを想定しています。' +
-        'また、画面幅に応じていくつかの項目が省略されます。' + page3FloorNum + '階建てで、各階に部屋が' +
-        page3RoomNum + '室あります。これらはテーブル要素、input、label要素などで構成されています。'],
-    ['お天気アプリを模したデモです。', '気温、湿度、風速などを表にし、グラフを表示します。グラフ描画にはChart.jsを使用しています。' +
-        'グラフの各点をクリックすると表の対応した部分に移動します。データは' + page4DataNum +
-        '件あります。これらはテーブル要素、canvas要素などで構成されています。'],
-];
-
+var seed: number = 6;
 function randInt(min: number, max: number): number {
-    return Math.floor(Math.random() * (max + 1 - min)) + min;
+    max = max || 1;
+    min = min || 0;
+
+    seed = (seed * 9301 + 49297) % 233280;
+    var rnd = seed / 233280;
+
+    return Math.floor(rnd * (max + 1 - min)) + min;
 }
 
 interface MainButtonProps {
@@ -46,12 +30,12 @@ class MainButton extends React.Component<MainButtonProps> {
 
     public clicked() {
         /// <reference path='index.tsx'>
-        setNowPage(this.props.page);
+        Index.setNowPage(this.props.page,()=>{});
     }
 
     public render(): React.ReactNode {
         var timeExpression: string;
-        if (this.props.time < 0) {
+        if (this.props.time <= 0) {
             timeExpression = '-';
         } else {
             timeExpression = this.props.time.toFixed(2) + 'sec';
@@ -65,8 +49,9 @@ class MainButton extends React.Component<MainButtonProps> {
                 </div>
                 <div className="box-right">
                     <div className="box-text">
-                        <p>{demoDesc[this.props.page][0] +
-                            (window.innerWidth >= 600 ? demoDesc[this.props.page][1] : '')}</p>
+                        <p>{Index.demoDesc[this.props.page][0] +
+                            (window.innerWidth >= 600 ? Index.demoDesc[this.props.page][1] +
+                                (window.innerWidth >= 1000 ? Index.demoDesc[this.props.page][2] : '') : '')}</p>
                     </div>
                     <div className="box-score">
                         <p>Time: {timeExpression}</p>
@@ -82,34 +67,49 @@ interface AppProps {
     page: string;
 }
 
-var timeStart: number;
+interface AppState {
+    page1ChannelNum: number;
+    page1MessageNum: number;
+    page1UserNum: number;
+    page2ImageNum: number;
+    page2ImageViewNum: number;
+    page3FloorNum: number;
+    page3RoomNum: number;
+    page4DataNum: number;
+}
 
-class App extends React.Component<AppProps> {
+class App extends React.Component<AppProps, AppState> {
     constructor(props: AppProps) {
         super(props);
-    }
-
-    public componentWillUpdate() {
-        timeStart = performance.now();
+        this.state = {
+            page1ChannelNum: 0,
+            page1MessageNum: 0,
+            page1UserNum: 0,
+            page2ImageNum: 0,
+            page2ImageViewNum: 0,
+            page3FloorNum: 0,
+            page3RoomNum: 0,
+            page4DataNum: 0
+        };
     }
 
     public componentDidUpdate() {
-        var timeEnd: number = (performance.now() - timeStart) / 1000;
-        var page: number = parseInt(this.props.page);
-        if (page > 0) {
-            setTimeout(() => {
-                setTime(page - 1, timeEnd);
-                setNaviTime(timeEnd);
-            }, 0);
+        if (this.props.page === '0') {
+            Index.naviBar.setVisible(false);
+        } else {
+            Index.naviBar.setVisible(true);
+        }
+    }
+
+    public componentDidMount() {
+        if (this.props.page === '0') {
+            Index.naviBar.setVisible(false);
+        } else {
+            Index.naviBar.setVisible(true);
         }
     }
 
     public render(): React.ReactNode {
-        if (this.props.page === '0') {
-            setNaviVisible(false);
-        } else {
-            setNaviVisible(true);
-        }
         if (this.props.page === '0') {
             return this.render0();
         } else if (this.props.page === '1') {
@@ -126,24 +126,29 @@ class App extends React.Component<AppProps> {
     }
 
     private render0(): React.ReactNode {
-        var times: number[] = getTimes();
-
+        var sum: number = 0;
         const node: React.ReactNode[] = [];
         for (let i: number = 0; i < 4; i++) {
-            node.push(<MainButton page={i} time={times[i]} />);
+
+            var cur: number = 0;
+            if (Index.processTimes[i].length > 0) {
+                cur = Index.processTimes[i].reduce((acc, cur) => { return acc + cur; });
+            }
+            sum += cur;
+            node.push(<MainButton page={i} time={cur} key={i} />);
         }
         var timeExpression: string;
-        if (times.indexOf(-1) >= 0) {
+        if (sum == 0) {
             timeExpression = '-';
         } else {
-            timeExpression = times.reduce((acc, cur) => acc + cur).toFixed(2) + 'sec';
+            timeExpression = sum.toFixed(2) + 'sec';
         }
 
 
         return (
             <div className="all-container-0">
                 <div className="top-container">
-                    <input type="button" className="menu" value="Run" onClick={runDemo} />
+                    <input type="button" className="menu" value="Run" onClick={Index.runDemo} />
                     <li>Total Time: {timeExpression}</li>
                 </div>
                 <div className="bottom-container">
@@ -155,27 +160,32 @@ class App extends React.Component<AppProps> {
     }
 
     private render1(): React.ReactNode {
-        let sampleElem1: React.ReactNode[] = [];
-        for (let i: number = 0; i < page1ElementNum; i++) {
-            sampleElem1.push(<li>{'sample channel' + i}</li>);
+        let channelElements: React.ReactNode[] = [];
+        for (let i: number = 0; i < this.state.page1ChannelNum; i++) {
+            channelElements.push(<li key={i} >{'sample channel' + i}</li>);
         }
-        let sampleElem2: React.ReactNode[] = [];
-        for (let i: number = 0; i < page1ElementNum; i++) {
-            sampleElem2.push(
-                <div className="balloon balloon-left">
+        channelElements = this.arrayCutFromLast(channelElements, Index.pageElementMax);
+
+        let messageElements: React.ReactNode[] = [];
+        for (let i: number = 0; i < this.state.page1MessageNum / 2; i++) {
+            messageElements.push(
+                <div className="balloon balloon-left" key={i * 2}>
                     <p>{'sample text.' + (i * 2)}</p>
                 </div>
             );
-            sampleElem2.push(
-                <div className="balloon balloon-right">
+            messageElements.push(
+                <div className="balloon balloon-right" key={i * 2 + 1}>
                     <p>{'sample text.' + (i * 2 + 1)}</p>
                 </div>
             );
         }
-        let sampleElem3: React.ReactNode[] = [];
-        for (let i: number = 0; i < page1ElementNum; i++) {
-            sampleElem3.push(<li>{'MemoMemoMemoMemoMemoMemoMemoMemoMemoMemo' + i}</li>);
+        messageElements = this.arrayCutFromLast(messageElements, Index.pageElementMax);
+
+        let userElements: React.ReactNode[] = [];
+        for (let i: number = 0; i < this.state.page1UserNum; i++) {
+            userElements.push(<li key={i} >{'MemoMemoMemoMemoMemoMemoMemoMemoMemoMemo' + i}</li>);
         }
+        userElements = this.arrayCutFromLast(userElements, Index.pageElementMax);
 
         return (
             <div className="all-container-1">
@@ -186,34 +196,38 @@ class App extends React.Component<AppProps> {
                         </div>
                     </div>
                     <div className="channel-container">
-                        {sampleElem1}
+                        {channelElements}
                     </div>
                 </div>
                 <div className="center-container">
-                    {sampleElem2}
+                    {messageElements}
                 </div>
                 <div className="right-container">
-                    {sampleElem3}
+                    {userElements}
                 </div>
 
             </div>
         );
+
     }
 
     private render2(): React.ReactNode {
+        seed = 2;
+
         var imageID: number = 0;
-        let sampleElem: React.ReactNode[] = [];
-        for (let i: number = 0; i < page2ElementNum; i++) {
-            sampleElem.push(
-                <div className="image-container">
+        let imageElements: React.ReactNode[] = [];
+        for (let i: number = 0; i < this.state.page2ImageViewNum; i++) {
+            imageElements.push(
+                <div className="image-container" key={i}>
                     <img src={'images/image' + imageID + '.jpg'} />
                 </div>
             );
             imageID++;
-            if (imageID == page2ImageNum) {
+            if (imageID == this.state.page2ImageNum) {
                 imageID = 0;
             }
         }
+        imageElements = this.arrayCutFromLast(imageElements, Index.pageElementMax);
 
         return (
             <div className="all-container-2">
@@ -226,20 +240,23 @@ class App extends React.Component<AppProps> {
                     <input type="button" value="exit" />
                 </div>
                 <div className="main-container">
-                    {sampleElem}
+                    {imageElements}
                 </div>
 
             </div>
         );
+
     }
 
     private render3(): React.ReactNode {
+        seed = 3;
+
         let uid: number = 0;
         let roomAnchor: React.ReactNode[] = [];
         let floorElem: React.ReactNode[] = [];
-        for (let i: number = 1; i <= page3FloorNum; i++) {
+        for (let i: number = 1; i <= this.state.page3FloorNum; i++) {
             let roomElem: React.ReactNode[] = [];
-            for (let j: number = 0; j < page3RoomNum; j++) {
+            for (let j: number = 0; j < this.state.page3RoomNum; j++) {
 
                 let addtionalColumn: React.ReactNode[] = [];
                 if (window.innerWidth >= 600) {
@@ -288,7 +305,7 @@ class App extends React.Component<AppProps> {
             }
             roomAnchor.push(<li className="item"><a href={'#floor' + i}>{i + '階'}</a></li>);
             floorElem.push(
-                <fieldset>
+                <fieldset key={i}>
                     <legend id={'floor' + i}>{i + '階'}</legend>
                     <table>
                         <tbody>
@@ -307,6 +324,9 @@ class App extends React.Component<AppProps> {
                 </fieldset>
             );
         }
+        if (Index.pageElementMax <= floorElem.length * this.state.page3RoomNum) {
+            floorElem = this.arrayCutFromLast(floorElem, Math.ceil(Index.pageElementMax / this.state.page3RoomNum));
+        }
         return (
             <div className="all-container-3">
                 <div className="top-container">
@@ -322,12 +342,13 @@ class App extends React.Component<AppProps> {
     }
 
     private render4(): React.ReactNode {
-        var date: Date = new Date();
+        seed = 4;
+        var date: Date = new Date(2017, 1, 24, 12, 30, 1, 1);
         var headers: string[] = ['場所', '測定日時', '気温', '湿度', '風速'];
         var datas: { location: string, date: Date, data0: number, data1: number, data2: number }[] = [];
 
 
-        for (var i: number = 0; i < page4DataNum; i++) {
+        for (var i: number = 0; i < this.state.page4DataNum; i++) {
             datas.push({
                 location: '地点1',
                 date: new Date(date),
@@ -339,8 +360,10 @@ class App extends React.Component<AppProps> {
             date.setHours(date.getHours() + 1);
         }
 
+        datas = this.arrayCutFromLast(datas, Index.pageElementMax);
+
         var dateStrings: string[] = [];
-        for (var i = 0; i < page4DataNum; i++) {
+        for (var i = 0; i < datas.length; i++) {
             if (i === 0 || datas[i - 1].date.getDate() !== datas[i].date.getDate()) {
                 dateStrings.push((datas[i].date.getMonth() + 1) + '/' + datas[i].date.getDate() + ' ' +
                     datas[i].date.getHours() + ':' + datas[i].date.getMinutes());
@@ -348,7 +371,6 @@ class App extends React.Component<AppProps> {
                 dateStrings.push((datas[i].date.getHours() + 1) + ':' + datas[i].date.getMinutes());
             }
         }
-        // console.log(dateStrings);
 
         var charts: React.ReactNode[] = [];
         for (var i: number = 0; i < 3; i++) {
@@ -392,15 +414,12 @@ class App extends React.Component<AppProps> {
             };
 
             const options = {
+                animation: undefined,
                 maintainAspectRatio: true,
                 responsive: true,
                 scales: { yAxes: [{ ticks: { beginAtZero: false, min: minValue, max: maxValue } }] },
                 onClick: (e: MouseEvent, item: { _index: number }[]) => {
-                    // console.log(chartData.datasets[0].label);
-                    // console.log(e);
-                    // console.log(item);
                     if (item.length > 0) {
-                        // console.log(item[0]._index);
 
                         var tableRow = $('table tr:eq(' + (item[0]._index + 1) + ')');
                         var offset = tableRow.offset();
@@ -412,12 +431,12 @@ class App extends React.Component<AppProps> {
                     }
                 }
             };
-            charts.push(<Chart.Line data={chartData} options={options} width={288} height={240} />);
+            charts.push(<Chart.Line data={chartData} options={options} width={288} height={240} key={i} />);
         }
 
         var rows: React.ReactNode[] = [];
         rows.push(
-            <tr>
+            <tr key={-1} id={"-1"}>
                 <th>{headers[0]}</th>
                 <th>{headers[1]}</th>
                 <th style={{ backgroundColor: 'rgb(255, 23, 73)' }}>{headers[2]}</th>
@@ -425,10 +444,10 @@ class App extends React.Component<AppProps> {
                 <th style={{ backgroundColor: 'rgb(0, 134, 134)' }}>{headers[4]}</th>
             </tr>
         );
-        for (var i: number = 0; i < page4DataNum; i++) {
+        for (var i: number = 0; i < datas.length; i++) {
             date = datas[i].date;
             rows.push(
-                <tr>
+                <tr key={date.getTime()} id={""+date.getTime()}>
                     <td>{datas[i].location}</td>
                     <td>{'' + date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() +
                         ' ' + date.getHours() + ':' + date.getMinutes()}</td>
@@ -454,8 +473,16 @@ class App extends React.Component<AppProps> {
 
             </div>
         );
+
     }
 
+    private arrayCutFromLast<T>(array: Array<T>, size: number): Array<T> {
+        if (array.length > size) {
+            return array.slice(array.length - size, array.length);
+        } else {
+            return array.concat();
+        }
+    }
 }
 
 export default App;
