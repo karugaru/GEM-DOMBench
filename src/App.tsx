@@ -81,7 +81,7 @@ class MainButton extends React.Component<MainButtonProps> {
                 responsive: true,
                 legend: { display: false }
             };
-            charts = <Chart.Line data={data} options={option} width={480} height={220} />;
+            charts = <div className='box-chart'><Chart.Line data={data} options={option} width={480} height={220} /></div>;
         }
         return (
             <div className="button-box" id={'box' + this.props.page}>
@@ -96,8 +96,9 @@ class MainButton extends React.Component<MainButtonProps> {
                             (window.innerWidth >= 600 ? Index.demoDesc[this.props.page][1] +
                                 (window.innerWidth >= 1000 ? Index.demoDesc[this.props.page][2] : '') : '')}</p>
                     </div>
-                    {charts}
+
                     <div className="box-score">
+                        {charts}
                         <p>Avg: {timeAvgExpression}<br />Total: {timeSumExpression}</p>
                     </div>
                 </div>
