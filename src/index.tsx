@@ -59,7 +59,7 @@ function timeMark(page: number) {
             var sum = processTimes[page].reduce((acc, cur) => { return acc + cur; })
             var avg = sum / processTimes[page].length;
             setTimeout(() => {
-                naviBar.setTime(sum, avg);
+                naviBar.setTime(time, sum, avg);
             }, 0);
             timeStamp = performance.now();
         }
@@ -249,6 +249,7 @@ interface NaviProps {
 
 interface NaviState {
     visible: boolean;
+    timeCur: number;
     timeSum: number;
     timeAvg: number;
 }
@@ -257,7 +258,7 @@ class Navi extends React.Component<NaviProps, NaviState> {
 
     constructor(props: NaviProps) {
         super(props);
-        this.state = { timeSum: -1, timeAvg: -1, visible: true };
+        this.state = { timeCur: -1, timeSum: -1, timeAvg: -1, visible: true };
     }
 
     public clicked() {
@@ -266,9 +267,12 @@ class Navi extends React.Component<NaviProps, NaviState> {
 
     public render(): React.ReactNode {
         if (this.state.visible) {
+            var timeCurExpression: string = '-';
             var timeSumExpression: string = '-';
             var timeAvgExpression: string = '-';
-
+            if (this.state.timeCur >= 0) {
+                timeCurExpression = this.state.timeCur.toFixed(2) + 'sec';
+            }
             if (this.state.timeSum >= 0) {
                 timeSumExpression = this.state.timeSum.toFixed(2) + 'sec';
             }
@@ -278,7 +282,7 @@ class Navi extends React.Component<NaviProps, NaviState> {
             return (
                 <div className="navigate-overlay">
                     <input type="button" className="menu" value="Back" onClick={this.clicked.bind(this)} />
-                    <div>{"Avg Time: " + timeAvgExpression + "   Total Time: " + timeSumExpression}</div>
+                    <span>{"Time: " + timeCurExpression + "\u00A0\u00A0\u00A0Avg: " + timeAvgExpression + "\u00A0\u00A0\u00A0Total: " + timeSumExpression}</span>
                 </div>
             );
         } else {
@@ -290,8 +294,8 @@ class Navi extends React.Component<NaviProps, NaviState> {
         this.setState({ visible: visible });
     }
 
-    public setTime(timeSum: number, timeAvg: number) {
-        this.setState({ timeSum: timeSum, timeAvg: timeAvg, visible: this.state.visible });
+    public setTime(timeCur: number, timeSum: number, timeAvg: number) {
+        this.setState({ timeCur: timeCur, timeSum: timeSum, timeAvg: timeAvg, visible: this.state.visible });
     }
 }
 
