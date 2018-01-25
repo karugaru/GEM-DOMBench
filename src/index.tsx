@@ -6,13 +6,13 @@ import './index.css';
 
 export const pageElementMax: number = 100; //1セクションに同時に表示する項目数の最大値
 export const page1ChannelNum: number = 100;
-export const page1MessageNum: number = 500;
+export const page1MessageNum: number = 1200;
 export const page1UserNum: number = 100;
 export const page2ImageNum: number = 11;
-export const page2ImageViewNum: number = 600;
-export const page3FloorNum: number = 60;
-export const page3RoomNum: number = 20;
-export const page4DataNum: number = 300;
+export const page2ImageViewNum: number = 1500;
+export const page3FloorNum: number = 120;
+export const page3RoomNum: number = 40;
+export const page4DataNum: number = 350;
 
 export const demoDesc: string[][] = [
     ['テキストチャットアプリを模したデモです。', 'Slackのようなメッセンジャーアプリを想定しています。' +
