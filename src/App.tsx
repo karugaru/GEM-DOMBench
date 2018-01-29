@@ -149,13 +149,52 @@ interface AppState {
 class App extends React.Component<AppProps, AppState> {
     constructor(props: AppProps) {
         super(props);
+        var styles = [];
+        for (let i = 0; i < Index.page2ImageViewNum; i++) {
+            var style = {
+                index: i,
+                rotate90: false,
+                rotate180: false,
+                rotate270: false,
+                flip: false,
+                grayscale: false,
+                sepia: false,
+                blur: false,
+            }
+            var variant = i % 800;
+
+            if (0 <= variant && variant <= 99) {
+                styles.push(style);
+            } else if (100 <= variant && variant <= 199) {
+                style.rotate90 = true;
+                styles.push(style);
+            } else if (200 <= variant && variant <= 299) {
+                style.rotate180 = true;
+                styles.push(style);
+            } else if (300 <= variant && variant <= 399) {
+                style.rotate270 = true;
+                styles.push(style);
+            } else if (400 <= variant && variant <= 499) {
+                style.flip = true;
+                styles.push(style);
+            } else if (500 <= variant && variant <= 599) {
+                style.grayscale = true;
+                styles.push(style);
+            } else if (600 <= variant && variant <= 699) {
+                style.sepia = true;
+                styles.push(style);
+            } else if (700 <= variant && variant <= 799) {
+                style.blur = true;
+                styles.push(style);
+            }
+        }
         this.state = {
             page1ChannelNum: 0,
             page1MessageNum: 0,
             page1UserNum: 0,
             page2ImageNum: 0,
             page2ImageViewNum: 0,
-            page2ImageStyles: [],
+            page2ImageStyles: styles,
             page2ImageSelected: null,
             page3FloorNum: 0,
             page3RoomNum: 0,
