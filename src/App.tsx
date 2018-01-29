@@ -5,6 +5,7 @@ import * as Index from './index';
 import * as Chart from 'react-chartjs-2';
 import * as $ from 'jquery';
 import { sampleTexts } from './SampleTexts';
+import * as classNames from 'classnames';
 
 var seed: number = 6;
 function randInt(min: number, max: number): number {
@@ -127,6 +128,17 @@ interface AppState {
     page1UserNum: number;
     page2ImageNum: number;
     page2ImageViewNum: number;
+    page2ImageStyles: {
+        index: number;
+        rotate90: boolean;
+        rotate180: boolean;
+        rotate270: boolean;
+        flip: boolean;
+        grayscale: boolean;
+        sepia: boolean;
+        blur: boolean;
+    }[];
+    page2ImageSelected: number | null;
     page3FloorNum: number;
     page3RoomNum: number;
     page4DataNum: number;
@@ -143,6 +155,8 @@ class App extends React.Component<AppProps, AppState> {
             page1UserNum: 0,
             page2ImageNum: 0,
             page2ImageViewNum: 0,
+            page2ImageStyles: [],
+            page2ImageSelected: null,
             page3FloorNum: 0,
             page3RoomNum: 0,
             page4DataNum: 0,
@@ -196,7 +210,6 @@ class App extends React.Component<AppProps, AppState> {
         window.removeEventListener('resize', this.handleResize.bind(this));
     }
 
-
     public render(): React.ReactNode {
         if (this.props.page === '0') {
             return this.render0();
@@ -211,10 +224,6 @@ class App extends React.Component<AppProps, AppState> {
         } else {
             return <div className="none" />;
         }
-    }
-
-    private handleResize() {
-        this.setState({ windowWidth: window.innerWidth, windowHeight: window.innerWidth });
     }
 
     private render0(): React.ReactNode {
@@ -232,7 +241,7 @@ class App extends React.Component<AppProps, AppState> {
             node.push(<MainButton page={i} times={Index.processTimes[i].concat()} timeSum={cur} timeAvg={avg} key={i} />);
         }
         var timeExpression: string;
-        if (sum == 0) {
+        if (sum === 0) {
             timeExpression = '-';
         } else {
             timeExpression = sum.toFixed(2) + 'sec';
@@ -329,11 +338,37 @@ class App extends React.Component<AppProps, AppState> {
             imageIDArrayTmp.pop();
         }
 
+        var styles = this.state.page2ImageStyles;
         let imageElements: React.ReactNode[] = [];
         for (let i: number = Math.max(this.state.page2ImageViewNum - Index.pageElementMax, 0); i < this.state.page2ImageViewNum; i++) {
+            var style = styles.find((x) => x.index === i);
+            if (style === undefined) {
+                style = {
+                    index: i,
+                    rotate90: false,
+                    rotate180: false,
+                    rotate270: false,
+                    flip: false,
+                    grayscale: false,
+                    sepia: false,
+                    blur: false,
+                };
+            }
+            const classNameForImage = classNames({
+                'normal-image': true,
+                'selected-image': this.state.page2ImageSelected === i,
+                'rotate90-image': style.rotate90,
+                'rotate180-image': style.rotate180,
+                'rotate270-image': style.rotate270,
+                'flip-image': style.flip,
+                'grayscale-image': style.grayscale,
+                'sepia-image': style.sepia,
+                'blur-image': style.blur,
+            });
             imageElements.push(
                 <div className="image-container" key={i}>
-                    <img src={'images/image' + imageIDArray[i] + '.jpg'} />
+                    <img src={'images/image' + imageIDArray[i] + '.jpg'} className={classNameForImage} id={"" + i}
+                        onClick={(e) => { this.handleImageClick(e); }} />
                 </div>
             );
         }
@@ -341,17 +376,16 @@ class App extends React.Component<AppProps, AppState> {
         return (
             <div className="all-container-2">
                 <div className="top-container">
-
-                    <input type="button" value="open" />
-                    <input type="button" value="rotate" />
-                    <input type="button" value="flip" />
-                    <input type="button" value="scale" />
-                    <input type="button" value="exit" />
+                    <input type="button" value="Rotate" onClick={(e) => { this.handleFilterClick(e); }} />
+                    <input type="button" value="Flip" onClick={(e) => { this.handleFilterClick(e); }} />
+                    <input type="button" value="Gray" onClick={(e) => { this.handleFilterClick(e); }} />
+                    <input type="button" value="Sepia" onClick={(e) => { this.handleFilterClick(e); }} />
+                    <input type="button" value="Blur" onClick={(e) => { this.handleFilterClick(e); }} />
+                    <input type="button" value="Exit" />
                 </div>
                 <div className="main-container">
                     {imageElements}
                 </div>
-
             </div>
         );
 
@@ -475,7 +509,7 @@ class App extends React.Component<AppProps, AppState> {
         for (let i = 0; i < dataStart * 3; i++) {
             randInt(0, 1);
         }
-        
+
         for (var i: number = dataStart; i < this.state.page4DataNum; i++) {
             datas.push({
                 location: '地点1',
@@ -612,6 +646,69 @@ class App extends React.Component<AppProps, AppState> {
             </div>
         );
 
+    }
+
+    private handleResize() {
+        this.setState({ windowWidth: window.innerWidth, windowHeight: window.innerWidth });
+    }
+
+    private handleImageClick(event: React.MouseEvent<HTMLImageElement>) {
+        this.setState({ page2ImageSelected: parseInt(event.target["id"]) });
+    }
+
+    private handleFilterClick(event: React.MouseEvent<HTMLInputElement>) {
+        if (this.state.page2ImageSelected !== null) {
+            var value = event.target["value"];
+            var styles = this.state.page2ImageStyles.concat();
+            var style = styles.find((x) => x.index === this.state.page2ImageSelected)
+            if (style === undefined) {
+                style = {
+                    index: this.state.page2ImageSelected,
+                    rotate90: false,
+                    rotate180: false,
+                    rotate270: false,
+                    flip: false,
+                    grayscale: false,
+                    sepia: false,
+                    blur: false,
+                }
+            }
+
+            switch (value) {
+                case 'Rotate': {
+                    if (!style.rotate90 && !style.rotate180 && !style.rotate270) {
+                        style.rotate90 = true;
+                    } else if (style.rotate90) {
+                        style.rotate90 = false;
+                        style.rotate180 = true;
+                    } else if (style.rotate180) {
+                        style.rotate180 = false;
+                        style.rotate270 = true;
+                    } else if (style.rotate270) {
+                        style.rotate270 = false;
+                    }
+                    break;
+                }
+                case 'Flip': {
+                    style.flip = !style.flip;
+                    break;
+                }
+                case 'Gray': {
+                    style.grayscale = !style.grayscale;
+                    break;
+                }
+                case 'Sepia': {
+                    style.sepia = !style.sepia;
+                    break;
+                }
+                case 'Blur': {
+                    style.blur = !style.blur;
+                    break;
+                }
+            }
+            styles.push(style);
+            this.setState({ page2ImageStyles: styles });
+        }
     }
 
 }

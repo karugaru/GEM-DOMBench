@@ -334,7 +334,7 @@ body {
   font-size: 4vmin;
 }
 
-.all-container-2 .top-container input[value="exit"] {
+.all-container-2 .top-container input[value="Exit"] {
   margin-left: auto;
 }
 
@@ -351,7 +351,6 @@ body {
 }
 
 .all-container-2 .image-container {
-  background-color: green;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -365,6 +364,41 @@ body {
 .all-container-2 .image-container img {
   width: 100%;
   height: 100%;
+  transition: all 100ms 0s ease;
+}
+
+.all-container-2 .image-container .selected-image {
+  border-style: dashed;
+  border-width: 0.4rem;
+  border-color: #3F51B5;
+}
+
+.all-container-2 .image-container .rotate90-image {
+  transform: rotateZ(90deg);
+}
+
+.all-container-2 .image-container .rotate180-image {
+  transform: rotateZ(180deg);
+}
+
+.all-container-2 .image-container .rotate270-image {
+  transform: rotateZ(270deg);
+}
+
+.all-container-2 .image-container .flip-image {
+  transform: rotateY(180deg);
+}
+
+.all-container-2 .image-container .grayscale-image {
+  filter: grayscale(100%);
+}
+
+.all-container-2 .image-container .sepia-image {
+  filter: sepia(100%);
+}
+
+.all-container-2 .image-container .blur-image {
+  filter: blur(5px);
 }
 
 .all-container-3 {
