@@ -39,10 +39,6 @@ class MainButton extends React.Component<MainButtonProps, MainButtonState> {
         };
     }
 
-    private handleResize() {
-        this.setState({ windowWidth: window.innerWidth, windowHeight: window.innerWidth });
-    }
-
     public componentDidMount() {
         window.addEventListener('resize', this.handleResize.bind(this));
     }
@@ -54,16 +50,6 @@ class MainButton extends React.Component<MainButtonProps, MainButtonState> {
     public clicked() {
         Index.setNowPage(this.props.page, false, () => { });
     }
-
-    public thinOutData<T>(array: T[], targetNum: number): T[] {
-        var interval = Math.floor(array.length / targetNum);
-        var retArray: T[] = [];
-        for (var i = 0; i < array.length; i += interval) {
-            retArray.push(array[i]);
-        }
-        return retArray;
-    }
-
 
     public render(): React.ReactNode {
         var timeSumExpression: string;
@@ -83,7 +69,7 @@ class MainButton extends React.Component<MainButtonProps, MainButtonState> {
 
         var charts: React.ReactNode = null;
         if (this.state.windowWidth >= 1650 && this.state.windowHeight >= 950) {
-            var thinData = this.props.times;// this.thinOutData(this.props.times, 100);
+            var thinData = this.props.times;
             var data = {
                 labels: new Array(thinData.length),
                 datasets: [{
@@ -125,6 +111,10 @@ class MainButton extends React.Component<MainButtonProps, MainButtonState> {
             </div>
         );
     }
+
+    private handleResize() {
+        this.setState({ windowWidth: window.innerWidth, windowHeight: window.innerWidth });
+    }
 }
 
 interface AppProps {
@@ -159,10 +149,6 @@ class App extends React.Component<AppProps, AppState> {
             windowWidth: window.innerWidth,
             windowHeight: window.innerWidth,
         };
-    }
-
-    private handleResize() {
-        this.setState({ windowWidth: window.innerWidth, windowHeight: window.innerWidth });
     }
 
     public componentDidUpdate() {
@@ -227,6 +213,10 @@ class App extends React.Component<AppProps, AppState> {
         }
     }
 
+    private handleResize() {
+        this.setState({ windowWidth: window.innerWidth, windowHeight: window.innerWidth });
+    }
+
     private render0(): React.ReactNode {
         var sum: number = 0;
         const node: React.ReactNode[] = [];
@@ -269,25 +259,24 @@ class App extends React.Component<AppProps, AppState> {
             '会議用', 'ゲーム部屋', '情報共有', 'クラス会', '同窓会幹事',
             'ボットチャンネル', '文芸部屋', 'サークル', '友達', '家族'];
         let channelElements: React.ReactNode[] = [];
-        for (let i: number = 0; i < this.state.page1ChannelNum; i++) {
+        for (let i: number = Math.max(this.state.page1ChannelNum - Index.pageElementMax, 0); i < this.state.page1ChannelNum; i++) {
             channelElements.push(<li key={i} >{channelSample[i % channelSample.length]}</li>);
         }
-        channelElements = this.arrayCutFromLast(channelElements, Index.pageElementMax);
 
-        let messageElements: React.ReactNode[] = [];
-        for (let i: number = 0; i < this.state.page1MessageNum / 2; i++) {
-            messageElements.push(
-                <div className="balloon balloon-left" key={i * 2}>
-                    <p>{sampleTexts[(i * 2) % sampleTexts.length]}</p>
-                </div>
-            );
-            messageElements.push(
-                <div className="balloon balloon-right" key={i * 2 + 1}>
-                    <p>{sampleTexts[(i * 2 + 1) % sampleTexts.length]}</p>
-                </div>
-            );
-        }
-        messageElements = this.arrayCutFromLast(messageElements, Index.pageElementMax);
+        let messageElements: React.ReactNode[];
+        let messageKeys: number[] = (new Array(Math.min(this.state.page1MessageNum, Index.pageElementMax))).fill(0).map(
+            (v, i) => Math.max(this.state.page1MessageNum - Index.pageElementMax, 0) + i);
+        messageElements = messageKeys.map((v) => {
+            if (v % 2 === 0) {
+                return <div className="balloon balloon-left" key={v}>
+                    <p>{sampleTexts[v % sampleTexts.length]}</p>
+                </div>;
+            } else {
+                return <div className="balloon balloon-right" key={v}>
+                    <p>{sampleTexts[v % sampleTexts.length]}</p>
+                </div>;
+            }
+        });
 
         const userSamples: string[] = [
             'Alpha', 'Bravo', 'Charlie', 'Delta', 'Echo', 'Foxtrot', 'Golf', 'Hotel', 'India', 'Juliett',
@@ -295,10 +284,10 @@ class App extends React.Component<AppProps, AppState> {
             'Uniform', 'Victor', 'Whiskey', 'X-ray', 'Yankee', 'Zulu'
         ]
         let userElements: React.ReactNode[] = [];
-        for (let i: number = 0; i < this.state.page1UserNum; i++) {
+        for (let i: number = Math.max(this.state.page1UserNum - Index.pageElementMax, 0); i < this.state.page1UserNum; i++) {
             userElements.push(<li key={i} >{userSamples[i % userSamples.length]}</li>);
         }
-        userElements = this.arrayCutFromLast(userElements, Index.pageElementMax);
+
         return (
             <div className="all-container-1">
                 <div className="left-container">
@@ -324,28 +313,30 @@ class App extends React.Component<AppProps, AppState> {
     private render2(): React.ReactNode {
         seed = 2;
 
-        var imageIDArray: number[] = [];
-
-        let imageElements: React.ReactNode[] = [];
+        let imageIDArray: number[] = [];
+        let imageIDArrayTmp: number[] = [];
         for (let i: number = 0; i < this.state.page2ImageViewNum; i++) {
-            if (imageIDArray.length === 0) {
-                imageIDArray = new Array(this.state.page2ImageNum).fill(0).map((value, index, ary) => { return index; });
-                for (var j = imageIDArray.length - 1; j > 0; j--) {
+            if (imageIDArrayTmp.length === 0) {
+                imageIDArrayTmp = new Array(this.state.page2ImageNum).fill(0).map((value, index) => index);
+                for (var j = imageIDArrayTmp.length - 1; j > 0; j--) {
                     var r = randInt(0, j);
-                    var tmp = imageIDArray[j];
-                    imageIDArray[j] = imageIDArray[r];
-                    imageIDArray[r] = tmp;
+                    var tmp = imageIDArrayTmp[j];
+                    imageIDArrayTmp[j] = imageIDArrayTmp[r];
+                    imageIDArrayTmp[r] = tmp;
                 }
             }
+            imageIDArray.push(imageIDArrayTmp[imageIDArrayTmp.length - 1]);
+            imageIDArrayTmp.pop();
+        }
 
+        let imageElements: React.ReactNode[] = [];
+        for (let i: number = Math.max(this.state.page2ImageViewNum - Index.pageElementMax, 0); i < this.state.page2ImageViewNum; i++) {
             imageElements.push(
                 <div className="image-container" key={i}>
-                    <img src={'images/image' + imageIDArray[imageIDArray.length - 1] + '.jpg'} />
+                    <img src={'images/image' + imageIDArray[i] + '.jpg'} />
                 </div>
             );
-            imageIDArray.pop();
         }
-        imageElements = this.arrayCutFromLast(imageElements, Index.pageElementMax);
 
         return (
             <div className="all-container-2">
@@ -368,31 +359,43 @@ class App extends React.Component<AppProps, AppState> {
 
     private render3(): React.ReactNode {
         seed = 3;
+        let maxFloor = Math.ceil(Index.pageElementMax / this.state.page3RoomNum);
+        let floorStart = Math.max(this.state.page3FloorNum - maxFloor, 0);
 
-        let uid: number = 0;
-        let roomAnchor: React.ReactNode[] = [];
+        let randConsume: number;
+        let uid: number;
+        if (this.state.windowWidth >= 600) {
+            uid = floorStart * this.state.page3RoomNum * 4;
+            randConsume = floorStart * this.state.page3RoomNum * 8;
+        } else {
+            uid = floorStart * this.state.page3RoomNum;
+            randConsume = floorStart * this.state.page3RoomNum * 5;
+        }
+        for (let i = 0; i < randConsume; i++) {
+            randInt(0, 1);
+        }
+
         let floorElem: React.ReactNode[] = [];
-        for (let i: number = 1; i <= this.state.page3FloorNum; i++) {
+        for (let i: number = floorStart; i < this.state.page3FloorNum; i++) {
             let roomElem: React.ReactNode[] = [];
             for (let j: number = 0; j < this.state.page3RoomNum; j++) {
 
                 let addtionalColumn: React.ReactNode[] = [];
                 if (this.state.windowWidth >= 600) {
                     addtionalColumn.push(
-                        <td className="switch">
+                        <td className="switch" key="1">
+                            <input id={'switch' + uid} defaultChecked={randInt(0, 1) === 0} type="checkbox" />
+                            <label htmlFor={'switch' + (uid++)} />
+                        </td>);
+                    addtionalColumn.push(
+                        <td className="switch" key="2">
+
                             <input id={'switch' + uid} defaultChecked={randInt(0, 1) === 0} type="checkbox" />
                             <label htmlFor={'switch' + (uid++)} />
 
                         </td>);
                     addtionalColumn.push(
-                        <td className="switch">
-
-                            <input id={'switch' + uid} defaultChecked={randInt(0, 1) === 0} type="checkbox" />
-                            <label htmlFor={'switch' + (uid++)} />
-
-                        </td>);
-                    addtionalColumn.push(
-                        <td className="switch">
+                        <td className="switch" key="3">
                             <input id={'switch' + uid} defaultChecked={randInt(0, 1) === 0} type="checkbox" />
                             <label htmlFor={'switch' + (uid++)} />
 
@@ -400,8 +403,8 @@ class App extends React.Component<AppProps, AppState> {
                 }
 
                 roomElem.push(
-                    <tr>
-                        <th className="row-header">{'部屋' + j}</th>
+                    <tr key={j}>
+                        <th className="row-header">{'部屋' + (j + 1)}</th>
                         <td className="switch">
                             <input id={'switch' + uid} defaultChecked={randInt(0, 1) === 0} type="checkbox" />
                             <label htmlFor={'switch' + (uid++)} />
@@ -412,19 +415,19 @@ class App extends React.Component<AppProps, AppState> {
                         <td className="nar">{randInt(20, 80)}%</td>
                         <td>{randInt(40, 60)}%<input type="button" value="▲" /><input type="button" value="▼" /></td>
                         {addtionalColumn}
-                    </tr>);
+                    </tr>
+                );
             }
 
             let addtionalColumn: React.ReactNode[] = [];
             if (this.state.windowWidth >= 600) {
-                addtionalColumn.push(<th>換気</th>);
-                addtionalColumn.push(<th>施錠</th>);
-                addtionalColumn.push(<th>警報装置</th>);
+                addtionalColumn.push(<th key="1">換気</th>);
+                addtionalColumn.push(<th key="2">施錠</th>);
+                addtionalColumn.push(<th key="3">警報装置</th>);
             }
-            roomAnchor.push(<li className="item"><a href={'#floor' + i}>{i + '階'}</a></li>);
             floorElem.push(
                 <fieldset key={i}>
-                    <legend id={'floor' + i}>{i + '階'}</legend>
+                    <legend id={'floor' + i}>{(i + 1) + '階'}</legend>
                     <table>
                         <tbody>
                             <tr>
@@ -442,10 +445,12 @@ class App extends React.Component<AppProps, AppState> {
                 </fieldset>
             );
         }
-        if (Index.pageElementMax <= floorElem.length * this.state.page3RoomNum) {
-            floorElem = this.arrayCutFromLast(floorElem,
-                Math.ceil(Index.pageElementMax / this.state.page3RoomNum));
+
+        let roomAnchor: React.ReactNode[] = [];
+        for (let i: number = 0; i < this.state.page3FloorNum; i++) {
+            roomAnchor.push(<li className="item" key={i}><a href={'#floor' + i}>{(i + 1) + '階'}</a></li>);
         }
+
         return (
             <div className="all-container-3">
                 <div className="top-container">
@@ -466,8 +471,12 @@ class App extends React.Component<AppProps, AppState> {
         var headers: string[] = ['場所', '測定日時', '気温', '湿度', '風速'];
         var datas: { location: string, date: Date, data0: number, data1: number, data2: number }[] = [];
 
-
-        for (var i: number = 0; i < this.state.page4DataNum; i++) {
+        let dataStart = Math.max(this.state.page4DataNum - Index.pageElementMax, 0);
+        for (let i = 0; i < dataStart * 3; i++) {
+            randInt(0, 1);
+        }
+        
+        for (var i: number = dataStart; i < this.state.page4DataNum; i++) {
             datas.push({
                 location: '地点1',
                 date: new Date(date),
@@ -478,8 +487,6 @@ class App extends React.Component<AppProps, AppState> {
 
             date.setHours(date.getHours() + 1);
         }
-
-        datas = this.arrayCutFromLast(datas, Index.pageElementMax);
 
         var dateStrings: string[] = [];
         for (var i = 0; i < datas.length; i++) {
@@ -607,13 +614,6 @@ class App extends React.Component<AppProps, AppState> {
 
     }
 
-    private arrayCutFromLast<T>(array: Array<T>, size: number): Array<T> {
-        if (array.length > size) {
-            return array.slice(array.length - size, array.length);
-        } else {
-            return array.concat();
-        }
-    }
 }
 
 export default App;
