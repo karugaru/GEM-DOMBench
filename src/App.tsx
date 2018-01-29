@@ -52,7 +52,7 @@ class MainButton extends React.Component<MainButtonProps, MainButtonState> {
     }
 
     public clicked() {
-        Index.setNowPage(this.props.page, () => { });
+        Index.setNowPage(this.props.page, false, () => { });
     }
 
     public thinOutData<T>(array: T[], targetNum: number): T[] {
@@ -228,7 +228,8 @@ class App extends React.Component<AppProps, AppState> {
         return (
             <div className="all-container-0">
                 <div className="top-container">
-                    <input type="button" className="menu" value="Run" onClick={Index.runDemo} />
+                    <input type="button" className="run-button" value="Run" onClick={Index.runDemo} />
+                    <input type="button" className="fastrun-button" value="Fast Run" onClick={Index.fastrunDemo} />
                     <span>Total Time: {timeExpression}</span>
                 </div>
                 <div className="bottom-container">
