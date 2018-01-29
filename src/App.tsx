@@ -171,6 +171,30 @@ class App extends React.Component<AppProps, AppState> {
         } else {
             Index.naviBar.setVisible(true);
         }
+        if (this.props.page === '1') {
+            var messageDiv = $('.center-container div:eq(' +
+                (Math.min(Math.floor(this.state.page1MessageNum / 2) * 2, Index.pageElementMax) - 1) + ')');
+            if (messageDiv.length > 0) {
+                messageDiv[0].scrollIntoView();
+            }
+        } else if (this.props.page === '2') {
+            var messageDiv = $('.main-container div:eq(' +
+                (Math.min(this.state.page2ImageViewNum, Index.pageElementMax) - 1) + ')');
+            if (messageDiv.length > 0) {
+                messageDiv[0].scrollIntoView();
+            }
+        } else if (this.props.page === '3') {
+            var messageDiv = $('.main-container fieldset:eq(' +
+                (Math.min(this.state.page3FloorNum, Math.ceil(Index.pageElementMax / this.state.page3RoomNum)) - 1) + ')');
+            if (messageDiv.length > 0) {
+                messageDiv[0].scrollIntoView();
+            }
+        } else if (this.props.page === '4') {
+            var messageDiv = $('tbody tr:eq(' + Math.min(this.state.page4DataNum, Index.pageElementMax) + ')');
+            if (messageDiv.length > 0) {
+                messageDiv[0].scrollIntoView();
+            }
+        }
     }
 
     public componentDidMount() {
@@ -275,7 +299,6 @@ class App extends React.Component<AppProps, AppState> {
             userElements.push(<li key={i} >{userSamples[i % userSamples.length]}</li>);
         }
         userElements = this.arrayCutFromLast(userElements, Index.pageElementMax);
-
         return (
             <div className="all-container-1">
                 <div className="left-container">
