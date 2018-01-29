@@ -73,224 +73,81 @@ function timeMark(page: number) {
     }
 }
 
-function setPage0(fastrun: boolean, callback: () => void) {
-    ReactDOM.render(<App page={"" + 0} />,
-        document.getElementById('root'));
-}
-
-function setPage1(fastrun: boolean, callback: () => void) {
-    var rendered = ReactDOM.render(<App page={"" + 1} />,
-        document.getElementById('root'));
-
-    if (rendered instanceof App) {
-        var app: App = rendered;
-        if (fastrun) {
-            timeMark(1);
-            app.setState(
-                () => {
-                    return {
-                        page1ChannelNum: page1ChannelNum,
-                        page1UserNum: page1UserNum,
-                        page1MessageNum: page1MessageNum,
-                    };
-                }, () => { setTimeout(() => { timeMark(1); callback(); }, 0) }
-            );
-
-        } else {
-            var channelNum = 0;
-            var userNum = 0;
-            var messageNum = 0;
-            interrupted = false;
-            var recursiveFunc = () => {
-                timeMark(1);
-                setTimeout(() => {
-                    var notEnd: boolean = false;
-                    if (channelNum < page1ChannelNum) {
-                        channelNum++;
-                        notEnd = true;
-                    }
-
-                    if (userNum < page1UserNum) {
-                        userNum++;
-                        notEnd = true;
-                    }
-
-                    if (messageNum < page1MessageNum) {
-                        messageNum++;
-                        notEnd = true;
-                    }
-                    if (notEnd && !interrupted) {
-                        app.setState(
-                            () => {
-                                return {
-                                    page1ChannelNum: channelNum,
-                                    page1UserNum: userNum,
-                                    page1MessageNum: messageNum,
-                                };
-                            },
-                            recursiveFunc
-                        );
-                    } else {
-                        callback();
-                    }
-                }, 0);
-            };
-            recursiveFunc();
-        }
-    }
-}
-
-function setPage2(fastrun: boolean, callback: () => void) {
-    var rendered = ReactDOM.render(<App page={"" + 2} />,
-        document.getElementById('root'));
-    if (rendered instanceof App) {
-        var app: App = rendered;
-        if (fastrun) {
-            timeMark(2);
-            app.setState(
-                () => {
-                    return {
-                        page2ImageNum: page2ImageNum,
-                        page2ImageViewNum: page2ImageViewNum,
-                    };
-                }, () => { setTimeout(() => { timeMark(2); callback(); }, 0) }
-            );
-
-        } else {
-            var imageNum = 0;
-            interrupted = false;
-            var recursiveFunc = () => {
-                timeMark(2);
-                setTimeout(() => {
-                    var notEnd: boolean = false;
-                    if (imageNum < page2ImageViewNum) {
-                        imageNum++;
-                        notEnd = true;
-                    }
-                    if (notEnd && !interrupted) {
-                        app.setState(
-                            () => {
-                                return {
-                                    page2ImageNum: page2ImageNum,
-                                    page2ImageViewNum: imageNum,
-                                };
-                            },
-                            recursiveFunc
-                        );
-                    } else {
-                        callback();
-                    }
-                }, 0);
-            };
-            recursiveFunc();
-        }
-    }
-}
-
-function setPage3(fastrun: boolean, callback: () => void) {
-    var rendered = ReactDOM.render(<App page={"" + 3} />,
-        document.getElementById('root'));
-    if (rendered instanceof App) {
-        var app: App = rendered;
-        if (fastrun) {
-            timeMark(3);
-            app.setState(
-                () => {
-                    return {
-                        page3FloorNum: page3FloorNum,
-                        page3RoomNum: page3RoomNum,
-                    };
-                }, () => { setTimeout(() => { timeMark(3); callback(); }, 0) }
-            );
-        } else {
-            var floorNum = 0;
-            var roomNum = 0;
-
-            interrupted = false;
-            var recursiveFunc = () => {
-                timeMark(3);
-                setTimeout(() => {
-                    var notEnd: boolean = false;
-                    if (floorNum < page3FloorNum) {
-                        floorNum++;
-                        notEnd = true;
-                    }
-                    if (roomNum < page3RoomNum) {
-                        roomNum++;
-                        notEnd = true;
-                    }
-                    if (notEnd && !interrupted) {
-                        app.setState(
-                            () => {
-                                return {
-                                    page3FloorNum: floorNum,
-                                    page3RoomNum: roomNum,
-                                };
-                            },
-                            recursiveFunc
-                        );
-                    } else {
-                        callback();
-                    }
-                }, 0);
-            };
-            recursiveFunc();
-        }
-    }
-}
-
-function setPage4(fastrun: boolean, callback: () => void) {
-    var rendered = ReactDOM.render(<App page={"" + 4} />,
-        document.getElementById('root'));
-    if (rendered instanceof App) {
-        var app: App = rendered;
-        if (fastrun) {
-            timeMark(4);
-            app.setState(
-                () => {
-                    return {
-                        page4DataNum: page4DataNum,
-                    };
-                }, () => { setTimeout(() => { timeMark(4); callback(); }, 0) }
-            );
-        } else {
-            var dataNum = 0;
-
-            interrupted = false;
-            var recursiveFunc = () => {
-                timeMark(4);
-                setTimeout(() => {
-                    var notEnd: boolean = false;
-                    if (dataNum < page4DataNum) {
-                        dataNum++;
-                        notEnd = true;
-                    }
-                    if (notEnd && !interrupted) {
-                        app.setState(
-                            () => {
-                                return {
-                                    page4DataNum: dataNum,
-                                };
-                            },
-                            recursiveFunc
-                        );
-                    } else {
-                        callback();
-                    }
-                }, 0);
-            };
-            recursiveFunc();
-        }
-    }
-}
-
 export function setNowPage(pageNo: number, fastrun: boolean, callback: () => void) {
     stopDemo();
     timeStamp = undefined;
     if (pageNo > 0) {
         processTimes[pageNo] = [];
     }
-    ([setPage0, setPage1, setPage2, setPage3, setPage4][pageNo])(fastrun, callback);
+    var settingData = [
+        [],
+        [
+            { name: 'page1ChannelNum', start: 0, end: page1ChannelNum },
+            { name: 'page1UserNum', start: 0, end: page1UserNum },
+            { name: 'page1MessageNum', start: 0, end: page1MessageNum },
+        ],
+        [
+            { name: 'page2ImageNum', start: page2ImageNum, end: page2ImageNum },
+            { name: 'page2ImageViewNum', start: 0, end: page2ImageViewNum },
+        ],
+        [
+            { name: 'page3FloorNum', start: 0, end: page3FloorNum },
+            { name: 'page3RoomNum', start: 0, end: page3RoomNum },
+        ],
+        [
+            { name: 'page4DataNum', start: 0, end: page4DataNum },
+        ],
+    ];
+
+
+    var rendered = ReactDOM.render(<App page={"" + pageNo} />,
+        document.getElementById('root'));
+
+    if (rendered instanceof App) {
+        var app: App = rendered;
+        if (fastrun) {
+            timeMark(pageNo);
+            app.setState(
+                () => {
+                    var state: object = {};
+                    settingData[pageNo].forEach(element => {
+                        state[element.name] = element.end;
+                    });
+                    return state;
+                }, () => { setTimeout(() => { timeMark(pageNo); callback(); }, 0) }
+            );
+
+        } else {
+            var state: object = {};
+            settingData[pageNo].forEach(element => {
+                state[element.name] = element.start;
+            });
+            interrupted = false;
+            var recursiveFunc = () => {
+                timeMark(pageNo);
+                setTimeout(() => {
+                    var notEnd: boolean = false;
+                    settingData[pageNo].forEach(element => {
+                        if (state[element.name] < element.end) {
+                            state[element.name]++;
+                            notEnd = true;
+                        }
+                    });
+                    if (notEnd && !interrupted) {
+                        app.setState(
+                            () => {
+                                return Object.assign({}, state);
+                            },
+                            recursiveFunc
+                        );
+                    } else {
+                        callback();
+                    }
+                }, 0);
+            };
+            recursiveFunc();
+        }
+    }
 }
 
 function demo(fastrun: boolean) {
