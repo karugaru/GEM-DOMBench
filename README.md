@@ -39,6 +39,19 @@ Slackのようなメッセンジャーアプリを想定しています。
 グラフ描画にはChart.jsを使用しています。グラフの各点をクリックすると表の対応した部分に移動します。
 これらはテーブル要素、canvas要素などで構成されています。
 
+## コーディング・ビルド手順  
+### 必要条件：  
+Node >= 6   
+### 手順：  
+・このプロジェクトをクローンする  
+・npm install create-react-app か npm install -g create-react-app を実行する  
+・npm install を実行する  
+・npm start を実行してコーディングする  
+  この状態ではソースコードを更新すると即座に画面に反映されるので作業中は便利  
+・npm run build でビルドする  
+  これでビルドできる。  
+・npm run deploy でGitHub Pagesにデプロイする。
+
 ## 負荷
 各フォームに表示される要素数はsrc/App.tsxの最初に書いてあるpageX～変数を書き換えることで変更できます。  
 変更したら、ビルドして下さい。
@@ -66,15 +79,12 @@ export const page4DataNum: number = 350;
 * ページ4: 15.79sec  
 * 合計: 55.54sec  
 
-## コーディング・ビルド手順  
-### 必要条件：  
-Node >= 6   
-### 手順：  
-・このプロジェクトをクローンする  
-・npm install create-react-app か npm install -g create-react-app を実行する  
-・npm install を実行する  
-・npm start を実行してコーディングする  
-  この状態ではソースコードを更新すると即座に画面に反映されるので作業中は便利  
-・npm run build でビルドする  
-  これでビルドできる。  
-・npm run deploy でGitHub Pagesにデプロイする。
+#### 環境  
+* OS: RZ/G1M  
+* 負荷設定: 上記と同じ
+#### 結果  
+* ページ1: 98.07sec  
+* ページ2: 126.76sec  
+* ページ3: 113.55sec  
+* ページ4: 76.85sec  
+* 合計: 415.23sec  
