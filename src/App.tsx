@@ -52,7 +52,6 @@ class MainButton extends React.Component<MainButtonProps, MainButtonState> {
     }
 
     public clicked() {
-        /// <reference path='index.tsx'>
         Index.setNowPage(this.props.page, () => { });
     }
 
@@ -182,6 +181,7 @@ class App extends React.Component<AppProps, AppState> {
             Index.naviBar.setVisible(true);
         }
     }
+
     public componentWillUnmount() {
         window.removeEventListener('resize', this.handleResize.bind(this));
     }
@@ -435,6 +435,7 @@ class App extends React.Component<AppProps, AppState> {
             </div>
         );
     }
+
     private render4(): React.ReactNode {
         seed = 4;
         var date: Date = new Date(2017, 1, 24, 12, 30, 1, 1);
