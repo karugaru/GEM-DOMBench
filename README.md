@@ -1,5 +1,5 @@
 View on this link.
-https://webdino.github.io/GEM-DOMBench/
+https://webdino.github.io/gem-dombench/
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).  
 
